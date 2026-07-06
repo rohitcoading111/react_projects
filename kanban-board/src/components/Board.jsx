@@ -2,19 +2,38 @@ import React from 'react'
 
 import Column from './Coulmn'
 
-const Board = () => {
+const Board = (props) => {
+
+
+ const todoTasks = props.tasks.filter((task) => {
+   return task.status === "Todo";
+});
+
+const inprogress =props.tasks.filter((task) => {
+   return task.status === "In Progress";
+});
+
+const done = props.tasks.filter((task) => {
+   return task.status === "Done";
+});
+
+
+
   const columns = [
     {
       id: 1,
       title: "Todo",
+      tasks:todoTasks,
     },
     {
       id: 2,
       title: "In Progress",
+      tasks:inprogress
     },
     {
       id: 3,
       title: "Done",
+       tasks:done
     },
   ];
 
@@ -25,6 +44,7 @@ const Board = () => {
           <Column
             key={column.id}
             title={column.title}
+            task={column.tasks}
           />
         ))}
       </div>

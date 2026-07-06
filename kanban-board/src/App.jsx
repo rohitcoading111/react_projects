@@ -8,7 +8,7 @@ import { useState } from 'react';
 const App = () => {
 
   const [model, setModel] = useState(false);
-  const [task, setTask] = useState([])
+  const [tasks, setTasks] = useState([])
 
   const handleModel = () => {
     if (model === false){
@@ -20,12 +20,15 @@ const App = () => {
       setModel(false)
     }
   }
+  const handleonAddTask = (newTask)=>{
+      setTasks([...tasks,newTask])
+  }
 
   return (
     <div>
       <Header onAddTask={handleModel} />
-      {model && <AddTaskModal onClose={handleCloseModel} />}
-       <Board />
+      {model && <AddTaskModal onAddTask={handleonAddTask}  onClose={handleCloseModel} />}
+       <Board tasks={tasks} />
     </div>
   )
 }
