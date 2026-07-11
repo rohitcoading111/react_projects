@@ -6,30 +6,30 @@ const TaskCard = ({ onEdit, onDelete,id,task}) => {
  
       <div className="mb-3 flex items-center justify-between">
         <span className="rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-600">
-          High
+          {task.priority}
         </span>
 
         <span className="text-sm text-gray-500">
-          📅 08 Jul
+          {task.date}
         </span>
       </div>
 
       <h3 className="text-lg font-semibold text-gray-800">
-        Build Kanban UI
+      {task.title}
       </h3>
 
       <p className="mt-2 text-sm text-gray-500">
-        Create responsive board layout using React and Tailwind CSS.
+        {task.description}
       </p>
 
       <div className="mt-5 flex items-center justify-between">
         <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-600">
-          React
+         {task.label}
         </span>
 
         <div className="flex gap-2">
           <button onClick={()=>{
-            return onEdit=(task)
+            return onEdit(task)
           }} className="rounded-lg bg-yellow-100 px-3 py-1 text-sm font-medium text-yellow-700 transition hover:bg-yellow-200">
             Edit
           </button>

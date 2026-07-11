@@ -46,6 +46,7 @@ const done = props.tasks.filter((task) => {
             title={column.title}
             task={column.tasks}
             onDelete={props.onDelete}
+            onEdit = {props.onEdit}
           />
         ))}
       </div>

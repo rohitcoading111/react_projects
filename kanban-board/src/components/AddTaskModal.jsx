@@ -1,14 +1,30 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import TaskCard from './TaskCard';
 const AddTaskModal = (props) => {
+ 
 
-const [formData, setFormData] = useState({status : "Todo"})
+ const initialFormData = {
+  title: "",
+  description: "",
+  priority: "Low",      
+  status: "Todo",
+  date: "",
+  label: "",
+  }
+const [formData, setFormData] = useState(initialFormData)
 
+  useEffect(() => {
+   if (props.editingTask !== null) {
+     setFormData(props.editingTask)
+   }
+   else{
+     setFormData(initialFormData)
+   }
+}, [props.editingTask])
 const handleChnage = (e)=> {
   setFormData({...formData,[e.target.name]:e.target.value})
 }
-
 
 const handleForm = (e) => {
     e.preventDefault();
@@ -38,9 +54,10 @@ const handleForm = (e) => {
 
           <div>
             <label className="mb-2 block font-medium text-gray-700">
-              Title
+              task
             </label>
             <input
+             value={formData.title}
               name='title'
               required
               onChange={handleChnage}
@@ -55,6 +72,7 @@ const handleForm = (e) => {
               Description
             </label>
             <textarea
+            value={formData.description}
              required
               onChange={handleChnage}
               name='description'
@@ -71,7 +89,7 @@ const handleForm = (e) => {
                 Priority
               </label>
 
-              <select required name='priority' onChange={handleChnage} className="w-full rounded-lg border border-gray-300 px-4 py-2">
+              <select value={formData.priority} required name='priority' onChange={handleChnage} className="w-full rounded-lg border border-gray-300 px-4 py-2">
                 <option>Low</option>
                 <option>Medium</option>
                 <option>High</option>
@@ -83,7 +101,7 @@ const handleForm = (e) => {
                 Status
               </label>
 
-              <select required name='status' onChange={handleChnage} className="w-full rounded-lg border border-gray-300 px-4 py-2">
+              <select value={formData.status} required name='status' onChange={handleChnage} className="w-full rounded-lg border border-gray-300 px-4 py-2">
                 <option value="todo">Todo</option>
                 <option>In Progress</option>
                 <option>Done</option>
@@ -100,6 +118,7 @@ const handleForm = (e) => {
 
             <input
             required
+            value={formData.date}
               onChange={handleChnage}
               name='date'
               type="date"
@@ -114,6 +133,7 @@ const handleForm = (e) => {
 
             <input
               onChange={handleChnage}
+              value={formData.label}
               name='label'
               required
               type="text"

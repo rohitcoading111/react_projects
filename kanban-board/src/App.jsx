@@ -41,6 +41,7 @@ const App = () => {
   }
 
   const onEdit = (task)=>{
+      console.log("Edit Clicked", task);
      setEditingTask(task)
      setModel(true);
   }
