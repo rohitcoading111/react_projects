@@ -1,6 +1,6 @@
 import React from 'react'
 
-const TaskCard = () => {
+const TaskCard = ({ onDelete,id}) => {
   return (
     <div className="mb-4 cursor-pointer rounded-xl bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
  
@@ -18,12 +18,10 @@ const TaskCard = () => {
         Build Kanban UI
       </h3>
 
-      {/* Description */}
       <p className="mt-2 text-sm text-gray-500">
         Create responsive board layout using React and Tailwind CSS.
       </p>
 
-      {/* Footer */}
       <div className="mt-5 flex items-center justify-between">
         <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-600">
           React
@@ -34,7 +32,9 @@ const TaskCard = () => {
             Edit
           </button>
 
-          <button className="rounded-lg bg-red-100 px-3 py-1 text-sm font-medium text-red-600 transition hover:bg-red-200">
+          <button onClick={() => {
+           return  onDelete(id);
+          }} className="rounded-lg bg-red-100 px-3 py-1 text-sm font-medium text-red-600 transition hover:bg-red-200">
             Delete
           </button>
         </div>

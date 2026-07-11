@@ -9,6 +9,7 @@ const App = () => {
 
   const [model, setModel] = useState(false);
   const [tasks, setTasks] = useState([])
+  
 
   const handleModel = () => {
     if (model === false){
@@ -20,15 +21,29 @@ const App = () => {
       setModel(false)
     }
   }
+
   const handleonAddTask = (newTask)=>{
-      setTasks([...tasks,newTask])
+    console.log(newTask);
+      const taskWithId = {
+  ...newTask,
+  id: Date.now() + Math.random()
+}
+
+      setTasks([...tasks,taskWithId])
+  }
+  const onDelete = (id)=>{
+    setTasks(()=>{
+      return tasks.filter((task)=>{
+        return task.id !== id;
+      })
+    })
   }
 
   return (
     <div>
       <Header onAddTask={handleModel} />
       {model && <AddTaskModal onAddTask={handleonAddTask}  onClose={handleCloseModel} />}
-       <Board tasks={tasks} />
+       <Board onDelete={onDelete} tasks={tasks} />
     </div>
   )
 }

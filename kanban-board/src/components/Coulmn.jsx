@@ -4,7 +4,6 @@ import TaskCard from "./TaskCard";
 const Column = (props) => {
   return (
     <div className="rounded-2xl bg-gray-100 p-4 shadow-md">
-      {/* Header */}
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-xl font-bold text-gray-800">
           {props.title}
@@ -17,7 +16,6 @@ const Column = (props) => {
 
       <div className="mb-4 h-[1px] bg-gray-300"></div>
 
-      {/* Tasks Container */}
       <div className="min-h-[500px] rounded-xl border-2 border-dashed border-gray-300 p-3">
 
         {props.task.length === 0 ? (
@@ -30,7 +28,9 @@ const Column = (props) => {
           <div className="space-y-4">
             {props.task.map((task) => (
               <TaskCard
+              onDelete={props.onDelete}
                 key={task.id}
+                id={task.id}
                 task={task}
               />
             ))}

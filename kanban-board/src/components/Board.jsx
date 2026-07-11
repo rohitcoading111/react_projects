@@ -33,7 +33,7 @@ const done = props.tasks.filter((task) => {
     {
       id: 3,
       title: "Done",
-       tasks:done
+      tasks:done
     },
   ];
 
@@ -45,6 +45,7 @@ const done = props.tasks.filter((task) => {
             key={column.id}
             title={column.title}
             task={column.tasks}
+            onDelete={props.onDelete}
           />
         ))}
       </div>

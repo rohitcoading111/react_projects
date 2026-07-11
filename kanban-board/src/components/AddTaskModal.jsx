@@ -3,7 +3,7 @@ import { useState } from 'react';
 import TaskCard from './TaskCard';
 const AddTaskModal = (props) => {
 
-const [formData, setFormData] = useState({})
+const [formData, setFormData] = useState({status : "Todo"})
 
 const handleChnage = (e)=> {
   setFormData({...formData,[e.target.name]:e.target.value})
@@ -84,7 +84,7 @@ const handleForm = (e) => {
               </label>
 
               <select required name='status' onChange={handleChnage} className="w-full rounded-lg border border-gray-300 px-4 py-2">
-                <option>Todo</option>
+                <option value="todo">Todo</option>
                 <option>In Progress</option>
                 <option>Done</option>
               </select>
