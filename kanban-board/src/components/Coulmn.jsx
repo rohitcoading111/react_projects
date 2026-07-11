@@ -28,7 +28,8 @@ const Column = (props) => {
           <div className="space-y-4">
             {props.task.map((task) => (
               <TaskCard
-              onDelete={props.onDelete}
+                onDelete={props.onDelete}
+                onEdit={props.onEdit}
                 key={task.id}
                 id={task.id}
                 task={task}

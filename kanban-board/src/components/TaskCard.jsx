@@ -1,6 +1,6 @@
 import React from 'react'
 
-const TaskCard = ({ onDelete,id}) => {
+const TaskCard = ({ onEdit, onDelete,id,task}) => {
   return (
     <div className="mb-4 cursor-pointer rounded-xl bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
  
@@ -28,7 +28,9 @@ const TaskCard = ({ onDelete,id}) => {
         </span>
 
         <div className="flex gap-2">
-          <button className="rounded-lg bg-yellow-100 px-3 py-1 text-sm font-medium text-yellow-700 transition hover:bg-yellow-200">
+          <button onClick={()=>{
+            return onEdit=(task)
+          }} className="rounded-lg bg-yellow-100 px-3 py-1 text-sm font-medium text-yellow-700 transition hover:bg-yellow-200">
             Edit
           </button>
 

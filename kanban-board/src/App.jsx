@@ -9,6 +9,7 @@ const App = () => {
 
   const [model, setModel] = useState(false);
   const [tasks, setTasks] = useState([])
+  const [editingTask, setEditingTask] = useState(null)
   
 
   const handleModel = () => {
@@ -39,11 +40,16 @@ const App = () => {
     })
   }
 
+  const onEdit = (task)=>{
+     setEditingTask(task)
+     setModel(true);
+  }
+
   return (
     <div>
       <Header onAddTask={handleModel} />
-      {model && <AddTaskModal onAddTask={handleonAddTask}  onClose={handleCloseModel} />}
-       <Board onDelete={onDelete} tasks={tasks} />
+      {model && <AddTaskModal onAddTask={handleonAddTask}  onClose={handleCloseModel} editingTask={editingTask} />}
+       <Board onEdit={onEdit} onDelete={onDelete} tasks={tasks} />
     </div>
   )
 }
