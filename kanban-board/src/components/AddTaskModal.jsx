@@ -28,7 +28,11 @@ const handleChnage = (e)=> {
 
 const handleForm = (e) => {
     e.preventDefault();
-    props.onAddTask(formData)
+   if (props.editingTask !== null) {
+    props.handleUpdateTask(formData);
+} else {
+    props.onAddTask(formData);
+}
     props.onClose();
 }
 

@@ -41,15 +41,29 @@ const App = () => {
   }
 
   const onEdit = (task)=>{
-      console.log("Edit Clicked", task);
      setEditingTask(task)
      setModel(true);
   }
 
+  const handleUpdateTask = (updatedTask) => {
+  setTasks((prevTasks) => {
+    return prevTasks.map((task) => {
+      if (task.id === updatedTask.id) {
+        return updatedTask;
+      }
+
+      return task;
+    });
+  });
+
+  setEditingTask(null);
+  setModel(false);
+};
+
   return (
     <div>
       <Header onAddTask={handleModel} />
-      {model && <AddTaskModal onAddTask={handleonAddTask}  onClose={handleCloseModel} editingTask={editingTask} />}
+      {model && <AddTaskModal onAddTask={handleonAddTask}  onClose={handleCloseModel} editingTask={editingTask} handleUpdateTask={handleUpdateTask} />}
        <Board onEdit={onEdit} onDelete={onDelete} tasks={tasks} />
     </div>
   )
