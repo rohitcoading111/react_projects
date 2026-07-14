@@ -3,12 +3,12 @@ import Header from './components/Header'
 import Board from './components/Board'
 import Coulmn from './components/Coulmn';
 import AddTaskModal from './components/AddTaskModal';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const App = () => {
  
   const [model, setModel] = useState(false);
-  const [tasks, setTasks] = useState([])
+  const [tasks, setTasks] = useState(JSON.parse(localStorage.getItem("tasks")) || [])
   const [editingTask, setEditingTask] = useState(null)
   
 
@@ -24,7 +24,6 @@ const App = () => {
   }
 
   const handleonAddTask = (newTask)=>{
-    console.log(newTask);
       const taskWithId = {
   ...newTask,
   id: Date.now() + Math.random()
@@ -59,6 +58,10 @@ const App = () => {
   setEditingTask(null);
   setModel(false);
 };
+
+useEffect(() => {
+   localStorage.setItem("tasks",JSON.stringify(tasks))
+}, [tasks])
 
   return (
     <div>
