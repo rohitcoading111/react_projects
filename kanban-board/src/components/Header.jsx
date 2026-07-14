@@ -15,7 +15,6 @@ const Header = (props) => {
           </p>
         </div>
 
-        {/* Right */}
         <div className="flex items-center gap-4">
           <input
             type="text"

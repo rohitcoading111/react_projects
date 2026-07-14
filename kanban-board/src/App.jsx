@@ -10,6 +10,7 @@ const App = () => {
   const [model, setModel] = useState(false);
   const [tasks, setTasks] = useState(JSON.parse(localStorage.getItem("tasks")) || [])
   const [editingTask, setEditingTask] = useState(null)
+  const [search, setSearch] = useState("");
   
 
   const handleModel = () => {
@@ -62,6 +63,7 @@ const App = () => {
 useEffect(() => {
    localStorage.setItem("tasks",JSON.stringify(tasks))
 }, [tasks])
+
 
   return (
     <div>
