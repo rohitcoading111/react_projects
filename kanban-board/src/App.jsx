@@ -6,7 +6,7 @@ import AddTaskModal from './components/AddTaskModal';
 import { useState } from 'react';
 
 const App = () => {
-
+ 
   const [model, setModel] = useState(false);
   const [tasks, setTasks] = useState([])
   const [editingTask, setEditingTask] = useState(null)
