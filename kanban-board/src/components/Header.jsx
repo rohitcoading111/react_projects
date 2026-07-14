@@ -5,7 +5,6 @@ const Header = (props) => {
     <header className="w-full bg-white shadow-md border-b border-gray-200">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
         
-        {/* Left */}
         <div>
           <h1 className="text-3xl font-bold text-gray-800">
             📋 Kanban Board
@@ -17,6 +16,10 @@ const Header = (props) => {
 
         <div className="flex items-center gap-4">
           <input
+          value={props.search}
+          onChange={(e)=>{
+            props.setSearch(e.target.value)
+          }}
             type="text"
             placeholder="Search tasks..."
             className="w-72 rounded-lg border border-gray-300 px-4 py-2 outline-none focus:ring-2 focus:ring-blue-500"

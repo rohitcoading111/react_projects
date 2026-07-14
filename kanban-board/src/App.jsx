@@ -11,6 +11,10 @@ const App = () => {
   const [tasks, setTasks] = useState(JSON.parse(localStorage.getItem("tasks")) || [])
   const [editingTask, setEditingTask] = useState(null)
   const [search, setSearch] = useState("");
+
+const searchedTasks = tasks.filter((task) => {
+  return task.title.toLowerCase().includes(search.toLowerCase());
+});
   
 
   const handleModel = () => {
@@ -67,9 +71,9 @@ useEffect(() => {
 
   return (
     <div>
-      <Header onAddTask={handleModel} />
+      <Header search={search} setSearch={setSearch} onAddTask={handleModel} />
       {model && <AddTaskModal onAddTask={handleonAddTask}  onClose={handleCloseModel} editingTask={editingTask} handleUpdateTask={handleUpdateTask} />}
-       <Board onEdit={onEdit} onDelete={onDelete} tasks={tasks} />
+       <Board onEdit={onEdit} onDelete={onDelete} tasks={searchedTasks} />
     </div>
   )
 }
