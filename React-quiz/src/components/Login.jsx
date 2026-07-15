@@ -1,6 +1,17 @@
 import React from 'react'
-
+import { useState } from 'react';
 const Login = ({setIsLogin}) => {
+const [formData, setFormData] = useState({
+     email : "",
+     password : "",
+});
+
+const handleChange = (e) => {
+setFormData((prev) => ({
+  ...prev,
+  [e.target.name]: e.target.value,
+}));
+};
 
   return (
     <div className="min-h-[calc(100vh-80px)] flex items-center justify-center bg-slate-100 px-4">
@@ -15,15 +26,19 @@ const Login = ({setIsLogin}) => {
             Login to continue your quiz journey
         </p>
 
-        <form className="mt-8 space-y-5">
+        <form onSubmit={handleChange} className="mt-8 space-y-5">
 
             <div>
-                <label className="block text-sm font-medium mb-2">
+                <label
+                    className="block text-sm font-medium mb-2">
                     Email
                 </label>
 
                 <input
+                    required
+                    name='email'
                     type="email"
+                    value={formData.email}
                     placeholder="Enter your email"
                     className="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
                 />
@@ -35,6 +50,9 @@ const Login = ({setIsLogin}) => {
                 </label>
 
                 <input
+                    required
+                    value={formData.password}
+                    name='password'
                     type="password"
                     placeholder="Enter your password"
                     className="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
