@@ -2,9 +2,23 @@ import { useContext } from "react";
 import { Star } from "lucide-react";
 import { ProductContext } from "../context/ProductContext";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const Shop = () => {
   const { products } = useContext(ProductContext);
+  const [selectedCategory, setSelectedCategory] = useState("all");
+const getButtonClass = (category) => {
+     return selectedCategory === category
+    ? "w-full bg-lime-400 text-black py-3 rounded-lg font-semibold transition"
+    : "w-full bg-zinc-800 text-white py-3 rounded-lg hover:bg-zinc-700 transition";
+};
+
+const filteredProducts =
+  selectedCategory === "all"
+    ? products
+    : products.filter(
+        (product) => product.category === selectedCategory
+      );
 
   return (
     <div className="min-h-screen bg-zinc-950 py-10 px-6">
@@ -28,36 +42,52 @@ const Shop = () => {
                 Categories
               </h2>
 
-              <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3">
 
-                <button className="bg-lime-400 text-black py-3 rounded-lg font-semibold hover:bg-lime-300 transition">
-                  All Products
-                </button>
+  <button
+    onClick={() => setSelectedCategory("all")}
+    className={getButtonClass("all")}
+  >
+    All Products
+  </button>
 
-                <button className="bg-zinc-800 text-white py-3 rounded-lg hover:bg-zinc-700 transition">
-                  Electronics
-                </button>
+  <button
+    onClick={() => setSelectedCategory("electronics")}
+    className={getButtonClass("electronics")}
+  >
+    Electronics
+  </button>
 
-                <button className="bg-zinc-800 text-white py-3 rounded-lg hover:bg-zinc-700 transition">
-                  Jewelery
-                </button>
+  <button
+    onClick={() => setSelectedCategory("jewelery")}
+    className={getButtonClass("jewelery")}
+  >
+    Jewelery
+  </button>
 
-                <button className="bg-zinc-800 text-white py-3 rounded-lg hover:bg-zinc-700 transition">
-                  Men's Clothing
-                </button>
+  <button
+    onClick={() => setSelectedCategory("men's clothing")}
+    className={getButtonClass("men's clothing")}
+  >
+    Men's Clothing
+  </button>
 
-                <button className="bg-zinc-800 text-white py-3 rounded-lg hover:bg-zinc-700 transition">
-                  Women's Clothing
-                </button>
+  <button
+    onClick={() => setSelectedCategory("women's clothing")}
+    className={getButtonClass("women's clothing")}
+  >
+    Women's Clothing
+  </button>
 
-              </div>
+</div>
 
             </div>
           </div>
 
           <div className="lg:w-3/4 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+          
 
-            {products.map((product) => (
+            {filteredProducts.map((product) => (
               <div
                 key={product.id}
                 className="bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-800 hover:border-lime-400 hover:-translate-y-1 transition duration-300"
@@ -100,7 +130,9 @@ const Shop = () => {
                     View Details
                   </button>
                   </Link>
-
+                     <button className="w-full mt-5 flex items-center justify-center gap-2 bg-lime-400 text-black py-3 rounded-lg font-semibold hover:bg-lime-300 transition">
+                      Add to Cart
+                </button>
                 </div>
 
               </div>

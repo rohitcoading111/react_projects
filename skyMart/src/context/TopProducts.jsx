@@ -10,7 +10,7 @@ const ProductProvider = ({ children }) => {
     const fetchProducts = async () => {
       try {
         const response = await fetch(
-          "https://fakestoreapi.com/products?limit=6"
+          "https://fakestoreapi.com/products?limit=8"
         );
         const data = await response.json();
         setTopProducts(data);
