@@ -1,9 +1,9 @@
 import { ShoppingCart, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useContext } from "react";
-import { ProductContext } from "../context/ProductContext";
+import { TopProductsContext } from "../context/TopProducts";
 const FeaturedProducts = () => {
-const{ products, setProducts } = useContext(ProductContext);
+const{ topProducts, setTopProducts } = useContext(TopProductsContext);
 
 
   return (
@@ -19,7 +19,7 @@ const{ products, setProducts } = useContext(ProductContext);
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
-      {products.map((product) => (
+      {topProducts.map((product) => (
   <div
     key={product.id}
     className="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden hover:border-lime-400 transition"
