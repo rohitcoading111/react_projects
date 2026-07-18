@@ -1,6 +1,45 @@
 import { Link } from "react-router-dom";
-
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 const Signup = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: ""
+  });
+
+const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = (e) => {
+  e.preventDefault();
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+   if (formData.password !== formData.confirmPassword) {
+    alert("Password and Confirm Password do not match");
+    return;
+  }
+
+
+    const newUser = {
+    name: formData.name,
+    email: formData.email,
+    password: formData.password,
+  };
+
+   users.push(newUser);
+  localStorage.setItem("users", JSON.stringify(users));
+   localStorage.setItem("currentUser", JSON.stringify(newUser));
+  navigate("/");
+  };
+
+  
   return (
     <div className="min-h-screen bg-zinc-950 flex items-center justify-center px-5">
 
@@ -14,7 +53,7 @@ const Signup = () => {
           Join SkyMart and start shopping today
         </p>
 
-        <form className="mt-8">
+        <form onSubmit={handleSubmit} className="mt-8">
 
           <div className="mb-5">
             <label className="text-zinc-300 block mb-2">
@@ -22,9 +61,15 @@ const Signup = () => {
             </label>
 
             <input
+              name="name"
+              type="text"
+              placeholder="Enter your name"
               type="text"
               placeholder="Enter your name"
               className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3 text-white outline-none focus:border-lime-400"
+              value={formData.name}
+              onChange={handleChange}
+              required
             />
           </div>
 
@@ -34,9 +79,13 @@ const Signup = () => {
             </label>
 
             <input
+              name="email"
               type="email"
               placeholder="Enter your email"
               className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3 text-white outline-none focus:border-lime-400"
+              value={formData.email}
+              onChange={handleChange}
+              required
             />
           </div>
 
@@ -46,6 +95,10 @@ const Signup = () => {
             </label>
 
             <input
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
               type="password"
               placeholder="Create password"
               className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3 text-white outline-none focus:border-lime-400"
@@ -59,16 +112,20 @@ const Signup = () => {
 
             <input
               type="password"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              required
               placeholder="Confirm password"
               className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3 text-white outline-none focus:border-lime-400"
             />
           </div>
-
-          <button
-            className="w-full bg-lime-400 text-black py-3 rounded-lg font-semibold hover:bg-lime-300 transition"
-          >
-            Create Account
-          </button>
+<button
+  type="submit"
+  className="w-full bg-lime-400 text-black py-3 rounded-lg font-semibold hover:bg-lime-300 transition"
+>
+  Create Account
+</button>
 
         </form>
 
