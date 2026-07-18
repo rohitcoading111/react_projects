@@ -1,3 +1,4 @@
+import {Link} from "react-router-dom";
 const Hero = () => {
   return (
     <section className="max-w-7xl mx-auto px-6 py-20">
@@ -27,9 +28,12 @@ const Hero = () => {
 
           <div className="mt-10 flex gap-5">
 
-            <button className="bg-lime-400 text-black px-7 py-3 rounded-xl font-semibold hover:scale-105 hover:bg-lime-300 transition duration-300 shadow-lg shadow-lime-400/20">
-              Explore Products
-            </button>
+           
+            <Link to="/shop">
+  <button className="bg-lime-400 text-black px-7 py-3 rounded-xl font-semibold hover:scale-105 hover:bg-lime-300 transition duration-300 shadow-lg shadow-lime-400/20">
+    Explore Products
+  </button>
+</Link>
 
             <button className="border border-zinc-700 px-7 py-3 rounded-xl text-white hover:border-lime-400 hover:text-lime-400 transition duration-300">
               Learn More
@@ -39,11 +43,10 @@ const Hero = () => {
 
         </div>
 
-        {/* Right */}
 
         <div className="relative">
 
-          {/* Glow */}
+
 
           <div className="absolute inset-0 bg-lime-400/10 blur-3xl rounded-full"></div>
 

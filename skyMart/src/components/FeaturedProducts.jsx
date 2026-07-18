@@ -49,7 +49,7 @@ const{ topProducts, setTopProducts } = useContext(TopProductsContext);
           </span>
         </div>
       </div>
-
+    
       <button className="w-full mt-5 flex items-center justify-center gap-2 bg-lime-400 text-black py-3 rounded-lg font-semibold hover:bg-lime-300 transition">
         <ShoppingCart size={18} />
         Add to Cart
