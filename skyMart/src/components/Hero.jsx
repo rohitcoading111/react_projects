@@ -1,35 +1,37 @@
 const Hero = () => {
   return (
-    <section className="max-w-7xl mx-auto px-6 py-16">
+    <section className="max-w-7xl mx-auto px-6 py-20">
 
-      {/* Hero Section */}
-      <div className="flex flex-col lg:flex-row items-center gap-10">
+      <div className="grid lg:grid-cols-2 gap-14 items-center">
 
         {/* Left */}
-        <div className="flex-1">
 
-          <p className="text-lime-400 font-semibold mb-3">
-            Welcome to SkyMart
-          </p>
+        <div>
 
-          <h1 className="text-5xl font-bold text-white leading-tight">
-            Shop <span className="text-lime-400">Smarter</span>, <br />
+          <span className="inline-block bg-lime-400/10 text-lime-400 border border-lime-400/20 px-4 py-2 rounded-full text-sm font-semibold mb-6">
+            🚀 Welcome to SkyMart
+          </span>
+
+          <h1 className="text-5xl lg:text-6xl font-extrabold text-white leading-tight">
+            Shop{" "}
+            <span className="text-lime-400">Smarter</span>
+            <br />
             Live Better.
           </h1>
 
-          <p className="text-zinc-400 mt-6 leading-7">
+          <p className="text-zinc-400 text-lg mt-6 leading-8 max-w-lg">
             Discover premium products at affordable prices.
-            Fast delivery, secure payment and trusted quality
+            Fast delivery, secure payments and trusted quality
             all in one place.
           </p>
 
-          <div className="mt-8 flex gap-4">
+          <div className="mt-10 flex gap-5">
 
-            <button className="bg-lime-400 text-black px-6 py-3 rounded-lg font-semibold hover:bg-lime-300 transition">
+            <button className="bg-lime-400 text-black px-7 py-3 rounded-xl font-semibold hover:scale-105 hover:bg-lime-300 transition duration-300 shadow-lg shadow-lime-400/20">
               Explore Products
             </button>
 
-            <button className="border border-zinc-600 text-white px-6 py-3 rounded-lg hover:border-lime-400 hover:text-lime-400 transition">
+            <button className="border border-zinc-700 px-7 py-3 rounded-xl text-white hover:border-lime-400 hover:text-lime-400 transition duration-300">
               Learn More
             </button>
 
@@ -38,27 +40,56 @@ const Hero = () => {
         </div>
 
         {/* Right */}
-        <div className="flex-1">
 
-          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8">
+        <div className="relative">
 
-            <div className="text-6xl text-center mb-5">
+          {/* Glow */}
+
+          <div className="absolute inset-0 bg-lime-400/10 blur-3xl rounded-full"></div>
+
+          <div className="relative bg-gradient-to-br from-zinc-900 to-zinc-800 border border-zinc-700 rounded-3xl p-10">
+
+            <div className="text-8xl text-center">
               📦
             </div>
 
-            <h2 className="text-white text-2xl font-semibold text-center mb-6">
+            <h2 className="text-white text-3xl font-bold text-center mt-6">
               Premium Shopping
             </h2>
 
-            <div className="space-y-3 text-zinc-300">
+            <p className="text-zinc-400 text-center mt-3">
+              Everything you need in one place.
+            </p>
 
-              <p>✅ Secure Payments</p>
+            <div className="grid grid-cols-2 gap-4 mt-8">
 
-              <p>🚚 Fast Delivery</p>
+              <div className="bg-zinc-800 rounded-xl p-4 text-center">
+                <h3 className="text-3xl">🔒</h3>
+                <p className="text-white mt-2 font-medium">
+                  Secure
+                </p>
+              </div>
 
-              <p>🔄 Easy Returns</p>
+              <div className="bg-zinc-800 rounded-xl p-4 text-center">
+                <h3 className="text-3xl">🚚</h3>
+                <p className="text-white mt-2 font-medium">
+                  Fast Delivery
+                </p>
+              </div>
 
-              <p>⭐ Best Quality Products</p>
+              <div className="bg-zinc-800 rounded-xl p-4 text-center">
+                <h3 className="text-3xl">🔄</h3>
+                <p className="text-white mt-2 font-medium">
+                  Easy Returns
+                </p>
+              </div>
+
+              <div className="bg-zinc-800 rounded-xl p-4 text-center">
+                <h3 className="text-3xl">⭐</h3>
+                <p className="text-white mt-2 font-medium">
+                  Top Quality
+                </p>
+              </div>
 
             </div>
 
@@ -70,26 +101,42 @@ const Hero = () => {
 
       {/* Stats */}
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mt-16">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mt-20">
 
-        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 text-center">
-          <h2 className="text-3xl font-bold text-lime-400">120+</h2>
-          <p className="text-zinc-400 mt-2">Products</p>
+        <div className="bg-gradient-to-br from-zinc-900 to-zinc-800 border border-zinc-700 rounded-2xl p-8 text-center hover:-translate-y-2 transition">
+          <h2 className="text-4xl font-bold text-lime-400">
+            120+
+          </h2>
+          <p className="text-zinc-400 mt-3">
+            Products
+          </p>
         </div>
 
-        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 text-center">
-          <h2 className="text-3xl font-bold text-lime-400">500+</h2>
-          <p className="text-zinc-400 mt-2">Customers</p>
+        <div className="bg-gradient-to-br from-zinc-900 to-zinc-800 border border-zinc-700 rounded-2xl p-8 text-center hover:-translate-y-2 transition">
+          <h2 className="text-4xl font-bold text-lime-400">
+            500+
+          </h2>
+          <p className="text-zinc-400 mt-3">
+            Happy Customers
+          </p>
         </div>
 
-        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 text-center">
-          <h2 className="text-3xl font-bold text-lime-400">850+</h2>
-          <p className="text-zinc-400 mt-2">Orders</p>
+        <div className="bg-gradient-to-br from-zinc-900 to-zinc-800 border border-zinc-700 rounded-2xl p-8 text-center hover:-translate-y-2 transition">
+          <h2 className="text-4xl font-bold text-lime-400">
+            850+
+          </h2>
+          <p className="text-zinc-400 mt-3">
+            Orders Delivered
+          </p>
         </div>
 
-        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 text-center">
-          <h2 className="text-3xl font-bold text-lime-400">4.9★</h2>
-          <p className="text-zinc-400 mt-2">Rating</p>
+        <div className="bg-gradient-to-br from-zinc-900 to-zinc-800 border border-zinc-700 rounded-2xl p-8 text-center hover:-translate-y-2 transition">
+          <h2 className="text-4xl font-bold text-lime-400">
+            4.9★
+          </h2>
+          <p className="text-zinc-400 mt-3">
+            Customer Rating
+          </p>
         </div>
 
       </div>

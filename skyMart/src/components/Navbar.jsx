@@ -5,6 +5,8 @@ const currentUser = null;
 
 
 const Navbar = () => {
+
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   return (
     <nav className="bg-[#0B0B0B] border-b border-zinc-800 h-20">
       <div className="max-w-7xl mx-auto h-full px-6 flex items-center justify-between">
@@ -59,13 +61,26 @@ const Navbar = () => {
           {!currentUser ? (
 
             <>
-              <Link
-                to="/login"
-                className="px-4 py-2 border border-lime-400 text-lime-400 rounded-lg hover:bg-lime-400 hover:text-black transition"
-              >
-                Login
-              </Link>
-
+           {
+    currentUser
+    ?(
+      <Link
+        to="/"
+        className="px-4 py-2 border border-lime-400 text-lime-400 rounded-lg hover:bg-lime-400 hover:text-black transition"
+      >
+        {currentUser.name}
+      </Link>
+    )
+    : (
+      <Link
+        to="/login"
+        className="px-4 py-2 border border-lime-400 text-lime-400 rounded-lg hover:bg-lime-400 hover:text-black transition"
+      >
+        Login
+      </Link>
+    )
+}
+   
               <Link
                 to="/signup"
                 className="px-4 py-2 bg-lime-400 text-black rounded-lg font-semibold hover:bg-lime-300 transition"
@@ -77,8 +92,6 @@ const Navbar = () => {
           ) : (
 
             <>
-
-
               <Link
                 to="/cart"
                 className="border border-zinc-700 p-3 rounded-xl text-white hover:border-lime-400 transition"
