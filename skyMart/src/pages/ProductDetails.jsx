@@ -1,10 +1,10 @@
 import { useParams } from "react-router-dom";
-import products from "../data/products";
-
+import { useContext } from "react";
+import { ProductContext } from "../context/ProductContext";
 const ProductDetails = () => {
 
+  const { products } = useContext(ProductContext);
   const { id } = useParams();
-
   const product = products.find((item) => item.id == id);
 
   if (!product) {
@@ -22,14 +22,14 @@ const ProductDetails = () => {
 
         <div className="flex items-center justify-center">
           <div className="text-9xl">
-            {product.image}
+            <img src={product.image} alt={product.name} className="h-96 object-contain" />
           </div>
         </div>
 
         <div>
 
           <h1 className="text-4xl font-bold text-white">
-            {product.name}
+            {product.title}
           </h1>
 
           <p className="text-zinc-400 mt-3">
@@ -41,9 +41,7 @@ const ProductDetails = () => {
           </p>
 
           <p className="text-zinc-300 mt-6 leading-7">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Esse molestiae corporis atque, expedita deleniti
-            reprehenderit voluptate recusandae.
+            {product.description}
           </p>
 
           <button className="bg-lime-400 text-black px-8 py-3 rounded-lg mt-8 font-semibold hover:bg-lime-300">
