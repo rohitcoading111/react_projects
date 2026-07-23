@@ -35,7 +35,7 @@ const Hero = () => {
   </button>
 </Link>
 
-            <button className="border border-zinc-700 px-7 py-3 rounded-xl text-white hover:border-lime-400 hover:text-lime-400 transition duration-300">
+            <button className="border border-zinc-700 px-7 py-3 rounded-xl text-black hover:bg-red-400 hover:text-lime-400 transition duration-300">
               Learn More
             </button>
 
