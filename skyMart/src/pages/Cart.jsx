@@ -1,96 +1,72 @@
+import { useContext } from "react";
+import { CartContext } from "../context/CartContext";
+import { Trash2 } from "lucide-react";
+
 const Cart = () => {
+  const { cartItems } = useContext(CartContext);
+
   return (
-    <div className="min-h-screen bg-zinc-950 px-6 py-10">
+    <div className="min-h-screen bg-zinc-950 py-10 px-6">
+      <div className="max-w-6xl mx-auto">
 
-      <h1 className="text-4xl font-bold text-white text-center">
-        Shopping Cart 🛒
-      </h1>
+        <h1 className="text-4xl font-bold text-white mb-8">
+          Shopping Cart
+        </h1>
 
-      <div className="max-w-7xl mx-auto mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-        {/* Cart Items */}
-
-        <div className="lg:col-span-2 space-y-6">
-
-          <div className="bg-zinc-900 rounded-xl p-5 flex flex-col md:flex-row items-center gap-6">
-
-            <div className="text-7xl">
-              🎧
-            </div>
-
-            <div className="flex-1">
-
-              <h2 className="text-white text-2xl font-semibold">
-                Wireless Headphones
-              </h2>
-
-              <p className="text-zinc-400 mt-2">
-                Electronics
-              </p>
-
-              <p className="text-lime-400 text-xl font-bold mt-3">
-                ₹2999
-              </p>
-
-            </div>
-
-            <div className="flex items-center gap-4">
-
-              <button className="bg-zinc-800 text-white px-4 py-2 rounded-lg">
-                -
-              </button>
-
-              <span className="text-white text-xl">
-                1
-              </span>
-
-              <button className="bg-zinc-800 text-white px-4 py-2 rounded-lg">
-                +
-              </button>
-
-            </div>
-
-            <button className="bg-red-500 px-5 py-2 rounded-lg text-white">
-              Remove
-            </button>
-
-          </div>
-
-        </div>
-
-        {/* Order Summary */}
-
-        <div className="bg-zinc-900 rounded-xl p-6 h-fit">
-
-          <h2 className="text-white text-2xl font-bold">
-            Order Summary
+        {cartItems.length === 0 ? (
+          <h2 className="text-zinc-400 text-xl">
+            Your Cart is Empty 😢
           </h2>
+        ) : (
+          <div className="space-y-6">
 
-          <div className="flex justify-between mt-8 text-zinc-300">
-            <span>Subtotal</span>
-            <span>₹2999</span>
+            {cartItems.map((item) => (
+              <div
+                key={item.id}
+                className="bg-zinc-900 rounded-xl p-5 flex items-center justify-between"
+              >
+
+                <div className="flex items-center gap-6">
+
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-24 h-24 object-contain bg-white rounded-lg p-2"
+                  />
+
+                  <div>
+
+                    <h2 className="text-white text-xl font-semibold">
+                      {item.title}
+                    </h2>
+
+                    <p className="text-zinc-400 mt-2">
+                      {item.category}
+                    </p>
+
+                    <p className="text-lime-400 font-bold mt-2">
+                      ${item.price}
+                    </p>
+
+                    <p className="text-white mt-2">
+                      Quantity : {item.quantity}
+                    </p>
+
+                  </div>
+
+                </div>
+
+                <button className="text-red-500 hover:text-red-400">
+                  <Trash2 size={28} />
+                </button>
+
+              </div>
+            ))}
+
           </div>
-
-          <div className="flex justify-between mt-4 text-zinc-300">
-            <span>Shipping</span>
-            <span>₹99</span>
-          </div>
-
-          <hr className="my-6 border-zinc-700" />
-
-          <div className="flex justify-between text-white text-2xl font-bold">
-            <span>Total</span>
-            <span>₹3098</span>
-          </div>
-
-          <button className="w-full bg-lime-400 text-black py-3 rounded-lg mt-8 font-semibold hover:bg-lime-300">
-            Proceed To Checkout
-          </button>
-
-        </div>
+        )}
 
       </div>
-
     </div>
   );
 };
