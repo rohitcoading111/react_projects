@@ -4,6 +4,11 @@ import { Trash2 } from "lucide-react";
 
 const Cart = () => {
   const { cartItems } = useContext(CartContext);
+  const {
+  increaseQuantity,
+  decreaseQuantity,
+  removeItem,
+} = useContext(CartContext);
 
   return (
     <div className="min-h-screen bg-zinc-950 py-10 px-6">
@@ -19,7 +24,7 @@ const Cart = () => {
           </h2>
         ) : (
           <div className="space-y-6">
-
+            
             {cartItems.map((item) => (
               <div
                 key={item.id}
@@ -48,17 +53,38 @@ const Cart = () => {
                       ${item.price}
                     </p>
 
-                    <p className="text-white mt-2">
-                      Quantity : {item.quantity}
-                    </p>
+                 <div className="flex items-center gap-4 mt-4">
+
+  <button
+    onClick={() => decreaseQuantity(item.id)}
+    className="bg-red-500 w-8 h-8 rounded-full text-white"
+  >
+    -
+  </button>
+
+  <span className="text-white font-bold">
+    {item.quantity}
+  </span>
+
+  <button
+    onClick={() => increaseQuantity(item.id)}
+    className="bg-lime-500 w-8 h-8 rounded-full text-black"
+  >
+    +
+  </button>
+
+</div>
 
                   </div>
 
                 </div>
 
-                <button className="text-red-500 hover:text-red-400">
-                  <Trash2 size={28} />
-                </button>
+               <button
+  onClick={() => removeItem(item.id)}
+  className="text-red-500 hover:text-red-400"
+>
+  <Trash2 size={28} />
+</button>
 
               </div>
             ))}
