@@ -9,7 +9,10 @@ const Cart = () => {
   decreaseQuantity,
   removeItem,
 } = useContext(CartContext);
-
+const totalPrice = cartItems.reduce(
+  (total, item) => total + item.price * item.quantity,
+  0
+);
   return (
     <div className="min-h-screen bg-zinc-950 py-10 px-6">
       <div className="max-w-6xl mx-auto">
@@ -24,7 +27,7 @@ const Cart = () => {
           </h2>
         ) : (
           <div className="space-y-6">
-            
+
             {cartItems.map((item) => (
               <div
                 key={item.id}
@@ -88,9 +91,19 @@ const Cart = () => {
 
               </div>
             ))}
-
           </div>
         )}
+                 <div className="mt-10 bg-zinc-900 rounded-xl p-6 flex justify-between items-center">
+
+  <h2 className="text-2xl text-white font-bold">
+    Total
+  </h2>
+
+  <h2 className="text-3xl text-lime-400 font-bold">
+    ${totalPrice.toFixed(2)}
+  </h2>
+
+           </div>
 
       </div>
     </div>

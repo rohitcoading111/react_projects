@@ -1,9 +1,12 @@
 import { ShoppingCart, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useContext } from "react";
+import { CartContext } from "../context/CartContext";
 import { TopProductsContext } from "../context/TopProducts";
 const FeaturedProducts = () => {
 const{ topProducts, setTopProducts } = useContext(TopProductsContext);
+
+  const { cartItems, addToCart } = useContext(CartContext);
 
 
   return (
@@ -19,8 +22,13 @@ const{ topProducts, setTopProducts } = useContext(TopProductsContext);
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
-      {topProducts.map((product) => (
-  <div
+     {topProducts.map((product) => {
+  const isInCart = cartItems.some(
+    (item) => item.id === product.id
+  );
+
+  return (
+     <div
     key={product.id}
     className="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden hover:border-lime-400 transition"
   >
@@ -50,13 +58,22 @@ const{ topProducts, setTopProducts } = useContext(TopProductsContext);
         </div>
       </div>
     
-      <button className="w-full mt-5 flex items-center justify-center gap-2 bg-lime-400 text-black py-3 rounded-lg font-semibold hover:bg-lime-300 transition">
-        <ShoppingCart size={18} />
-        Add to Cart
-      </button>
+     
+          <button
+  onClick={() => addToCart(product)}
+  disabled={isInCart}
+  className={`px-8 py-3 rounded-lg mt-8 font-semibold transition ${
+    isInCart
+      ? "bg-green-500 text-white cursor-not-allowed"
+      : "bg-lime-400 text-black hover:bg-lime-300"
+  }`}
+>
+  {isInCart ? "✅ Added" : "🛒 Add To Cart"}
+</button>
     </div>
   </div>
-))}
+  );
+})}
       </div>
     </section>
   );

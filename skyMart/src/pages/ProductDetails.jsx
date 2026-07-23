@@ -8,6 +8,9 @@ const ProductDetails = () => {
   const { cartItems, addToCart } = useContext(CartContext);
   const { id } = useParams();
   const product = products.find((item) => item.id == id);
+  const isInCart = cartItems.some(
+  (item) => item.id === product.id
+);
 
   if (!product) {
     return (
@@ -46,9 +49,17 @@ const ProductDetails = () => {
             {product.description}
           </p>
 
-          <button className="bg-lime-400 text-black px-8 py-3 rounded-lg mt-8 font-semibold hover:bg-lime-300">
-            Add To Cart
-          </button>
+          <button
+  onClick={() => addToCart(product)}
+  disabled={isInCart}
+  className={`px-8 py-3 rounded-lg mt-8 font-semibold transition ${
+    isInCart
+      ? "bg-green-500 text-white cursor-not-allowed"
+      : "bg-lime-400 text-black hover:bg-lime-300"
+  }`}
+>
+  {isInCart ? "✅ Added" : "🛒 Add To Cart"}
+</button>
 
         </div>
 
