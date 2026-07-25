@@ -1,6 +1,8 @@
 import { ShoppingCart, Eye, Star } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const ProductCard = ({
+  id,
   image,
   title,
   price,
@@ -10,7 +12,6 @@ const ProductCard = ({
   return (
     <div className="group bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
 
-      {/* Image */}
       <div className="bg-gray-100 h-64 flex items-center justify-center overflow-hidden">
         <img
           src={image}
@@ -19,7 +20,6 @@ const ProductCard = ({
         />
       </div>
 
-      {/* Details */}
       <div className="p-5">
 
         <p className="text-sm uppercase text-violet-600 font-medium">
@@ -35,7 +35,6 @@ const ProductCard = ({
             size={18}
             className="fill-yellow-400 text-yellow-400"
           />
-
           <span>{rating}</span>
         </div>
 
@@ -49,10 +48,13 @@ const ProductCard = ({
           </button>
         </div>
 
-        <button className="mt-5 w-full py-3 rounded-xl border border-violet-600 text-violet-600 hover:bg-violet-600 hover:text-white transition flex items-center justify-center gap-2">
+        <Link
+          to={`/product/${id}`}
+          className="mt-5 w-full py-3 rounded-xl border border-violet-600 text-violet-600 hover:bg-violet-600 hover:text-white transition flex items-center justify-center gap-2"
+        >
           <Eye size={18} />
           View Details
-        </button>
+        </Link>
 
       </div>
     </div>

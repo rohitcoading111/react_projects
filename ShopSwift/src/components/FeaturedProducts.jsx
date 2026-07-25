@@ -1,45 +1,39 @@
 import ProductCard from "./ProductCard";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { fetchProducts } from "../redux/productSlice";
 
-const products = [
-  {
-    id: 1,
-    title: "Wireless Headphones",
-    price: 129.99,
-    category: "Electronics",
-    rating: 4.8,
-    image:
-      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500",
-  },
-  {
-    id: 2,
-    title: "Running Shoes",
-    price: 89.99,
-    category: "Fashion",
-    rating: 4.5,
-    image:
-      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500",
-  },
-  {
-    id: 3,
-    title: "Smart Watch",
-    price: 249.99,
-    category: "Electronics",
-    rating: 4.9,
-    image:
-      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500",
-  },
-  {
-    id: 4,
-    title: "Backpack",
-    price: 59.99,
-    category: "Accessories",
-    rating: 4.6,
-    image:
-      "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500",
-  },
-];
+
 
 const FeaturedProducts = () => {
+
+  const dispatch = useDispatch();
+
+const { products, loading, error } = useSelector(
+  (state) => state.products
+);
+
+useEffect(() => {
+  dispatch(fetchProducts());
+}, [dispatch]);
+
+
+  if (loading) {
+    return (
+      <h1 className="text-center text-3xl py-20">
+        Loading...
+      </h1>
+    );
+  }
+
+  if (error) {
+    return (
+      <h1 className="text-center text-red-600 py-20">
+        {error}
+      </h1>
+    );
+  }
+  
   return (
     <section className="max-w-7xl mx-auto px-6 py-20">
 
@@ -54,18 +48,18 @@ const FeaturedProducts = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {products.map((product) => (
-          <ProductCard
-            key={product.id}
-            image={product.image}
-            title={product.title}
-            price={product.price}
-            rating={product.rating}
-            category={product.category}
-          />
-        ))}
+        {products.slice(0, 8).map((product) => (
+  <ProductCard
+  key={product.id}
+  id={product.id}
+  image={product.image}
+  title={product.title}
+  price={product.price}
+  rating={product.rating.rate}
+  category={product.category}
+/>
+))}
       </div>
-
     </section>
   );
 };

@@ -1,54 +1,80 @@
 import { FaStar, FaShoppingCart } from "react-icons/fa";
+import { useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { fetchProducts } from "../redux/productSlice";
 
 const ProductDetails = () => {
+  const { id } = useParams();
+  const dispatch = useDispatch();
+
+  const { products, loading, error } = useSelector(
+    (state) => state.products
+  );
+
+  useEffect(() => {
+    if (products.length === 0) {
+      dispatch(fetchProducts());
+    }
+  }, [dispatch, products.length]);
+
+  if (loading) {
+    return <h1 className="text-center py-20 text-3xl">Loading...</h1>;
+  }
+
+  if (error) {
+    return <h1 className="text-center py-20 text-red-600">{error}</h1>;
+  }
+
+  const product = products.find((item) => item.id === Number(id));
+
+  if (!product) {
+    return <h1 className="text-center py-20 text-3xl">Product Not Found</h1>;
+  }
+
   return (
     <section className="min-h-screen bg-gray-50 py-16">
       <div className="max-w-7xl mx-auto px-6">
 
-        {/* Product Section */}
-
         <div className="grid lg:grid-cols-2 gap-16 bg-white rounded-3xl shadow-lg p-10">
 
           {/* Image */}
-
           <div className="flex justify-center items-center bg-gray-100 rounded-2xl p-10">
             <img
-              src="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"
-              alt="Product"
+              src={product.image}
+              alt={product.title}
               className="w-96 h-96 object-contain hover:scale-105 transition duration-300"
             />
           </div>
 
           {/* Details */}
-
           <div>
 
-            <span className="inline-block px-4 py-2 rounded-full bg-violet-100 text-violet-700 font-medium">
-              Electronics
+            <span className="inline-block px-4 py-2 rounded-full bg-violet-100 text-violet-700 font-medium capitalize">
+              {product.category}
             </span>
 
             <h1 className="text-4xl font-bold mt-5">
-              Fjallraven Backpack
+              {product.title}
             </h1>
 
             <div className="flex items-center gap-2 mt-4">
               <FaStar className="text-yellow-400" />
-              <span className="font-semibold">4.8</span>
-              <span className="text-gray-500">(1,245 Reviews)</span>
+              <span className="font-semibold">
+                {product.rating.rate}
+              </span>
+              <span className="text-gray-500">
+                ({product.rating.count} Reviews)
+              </span>
             </div>
 
             <h2 className="text-5xl font-bold text-violet-600 mt-8">
-              $109.95
+              ${product.price}
             </h2>
 
             <p className="text-gray-600 mt-8 leading-8">
-              This premium backpack is perfect for travel,
-              college, office, and everyday use.
-              Designed with high-quality materials and
-              long-lasting durability.
+              {product.description}
             </p>
-
-            {/* Quantity */}
 
             <div className="flex items-center gap-5 mt-10">
 
@@ -65,8 +91,6 @@ const ProductDetails = () => {
               </button>
 
             </div>
-
-            {/* Buttons */}
 
             <div className="flex gap-5 mt-10">
 
@@ -85,8 +109,6 @@ const ProductDetails = () => {
 
         </div>
 
-        {/* Related Products */}
-
         <div className="mt-24">
 
           <h2 className="text-3xl font-bold mb-10">
@@ -95,10 +117,33 @@ const ProductDetails = () => {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
 
-            <div className="bg-white rounded-2xl h-72 shadow-md"></div>
-            <div className="bg-white rounded-2xl h-72 shadow-md"></div>
-            <div className="bg-white rounded-2xl h-72 shadow-md"></div>
-            <div className="bg-white rounded-2xl h-72 shadow-md"></div>
+            {products
+              .filter(
+                (item) =>
+                  item.category === product.category &&
+                  item.id !== product.id
+              )
+              .slice(0, 4)
+              .map((item) => (
+                <div
+                  key={item.id}
+                  className="bg-white rounded-2xl shadow-md p-5"
+                >
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="h-40 mx-auto object-contain"
+                  />
+
+                  <h3 className="mt-4 font-semibold line-clamp-2">
+                    {item.title}
+                  </h3>
+
+                  <p className="text-violet-600 font-bold mt-2">
+                    ${item.price}
+                  </p>
+                </div>
+              ))}
 
           </div>
 
