@@ -1,5 +1,7 @@
 import { ShoppingCart, Eye, Star } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/cartSlice";
 
 const ProductCard = ({
   id,
@@ -9,6 +11,12 @@ const ProductCard = ({
   rating,
   category,
 }) => {
+  const dispatch = useDispatch();
+
+  const handleAddToCart = () => {
+    dispatch(addToCart({ id, image, title, price, rating, category }));
+  };
+
   return (
     <div className="group bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
 
@@ -43,8 +51,11 @@ const ProductCard = ({
             ${price}
           </h2>
 
-          <button className="bg-violet-600 text-white p-3 rounded-full hover:bg-violet-700 transition">
-            <ShoppingCart size={20} />
+          <button
+            onClick={handleAddToCart}
+            className="p-3 rounded-full bg-violet-600 text-white hover:bg-violet-700 transition"
+          >
+            <ShoppingCart size={18} />
           </button>
         </div>
 

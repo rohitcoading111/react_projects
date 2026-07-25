@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchProducts } from "../redux/productSlice";
+import { addToCart } from "../redux/cartSlice";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -11,6 +12,7 @@ const ProductDetails = () => {
   const { products, loading, error } = useSelector(
     (state) => state.products
   );
+  
 
   useEffect(() => {
     if (products.length === 0) {
@@ -38,7 +40,6 @@ const ProductDetails = () => {
 
         <div className="grid lg:grid-cols-2 gap-16 bg-white rounded-3xl shadow-lg p-10">
 
-          {/* Image */}
           <div className="flex justify-center items-center bg-gray-100 rounded-2xl p-10">
             <img
               src={product.image}
@@ -47,7 +48,6 @@ const ProductDetails = () => {
             />
           </div>
 
-          {/* Details */}
           <div>
 
             <span className="inline-block px-4 py-2 rounded-full bg-violet-100 text-violet-700 font-medium capitalize">
@@ -93,11 +93,13 @@ const ProductDetails = () => {
             </div>
 
             <div className="flex gap-5 mt-10">
-
-              <button className="flex items-center gap-3 bg-violet-600 text-white px-8 py-4 rounded-xl hover:bg-violet-700 transition">
-                <FaShoppingCart />
-                Add To Cart
-              </button>
+<button
+  onClick={() => dispatch(addToCart(product))}
+  className="flex items-center gap-3 bg-violet-600 text-white px-8 py-4 rounded-xl hover:bg-violet-700 transition"
+>
+  <FaShoppingCart />
+  Add To Cart
+</button>
 
               <button className="border-2 border-violet-600 text-violet-600 px-8 py-4 rounded-xl hover:bg-violet-600 hover:text-white transition">
                 Buy Now
