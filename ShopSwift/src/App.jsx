@@ -6,8 +6,19 @@ import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import NotFound from "./pages/NotFound";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { login } from "./redux/authSlice";
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+  const user = JSON.parse(localStorage.getItem("currentUser"));
+
+  if (user) {
+    dispatch(login(user));
+  }
+}, []);
   return (
     <Routes>
       <Route path="/" element={<Home />} />

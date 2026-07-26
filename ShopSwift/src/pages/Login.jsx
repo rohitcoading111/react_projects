@@ -1,6 +1,56 @@
 import { FaGoogle, FaGithub, FaEye } from "react-icons/fa";
-
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/authSlice";
 const Login = () => {
+const dispatch = useDispatch();
+const navigate = useNavigate();
+
+const [formData, setFormData] = useState({
+  email: "",
+  password: "",
+});
+const handleChange = (e) => {
+  setFormData({
+    ...formData,
+    [e.target.name]: e.target.value,
+  });
+};
+const handleLogin = (e) => {
+  e.preventDefault();
+
+  const { email, password } = formData;
+
+  if (!email || !password) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+
+  const user = users.find(
+    (u) =>
+      u.email === email &&
+      u.password === password
+  );
+
+  if (!user) {
+    alert("Invalid Email or Password");
+    return;
+  }
+
+  dispatch(login(user));
+
+  localStorage.setItem(
+    "currentUser",
+    JSON.stringify(user)
+  );
+
+  alert("Login Successful");
+
+  navigate("/");
+};
   return (
     <section className="min-h-screen bg-gradient-to-br from-violet-100 via-white to-purple-100 flex items-center justify-center px-6 py-10">
 
@@ -37,12 +87,14 @@ const Login = () => {
             <label className="font-medium">
               Email
             </label>
-
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="w-full mt-2 p-4 rounded-xl border border-gray-300 outline-none focus:ring-2 focus:ring-violet-500"
-            />
+<input
+  type="email"
+  name="email"
+  value={formData.email}
+  onChange={handleChange}
+  placeholder="Enter your email"
+  className="w-full mt-2 p-4 rounded-xl border border-gray-300 outline-none focus:ring-2 focus:ring-violet-500"
+/>
 
           </div>
 
@@ -55,11 +107,14 @@ const Login = () => {
 
             <div className="relative">
 
-              <input
-                type="password"
-                placeholder="Enter password"
-                className="w-full mt-2 p-4 rounded-xl border border-gray-300 outline-none focus:ring-2 focus:ring-violet-500"
-              />
+           <input
+  type="password"
+  name="password"
+  value={formData.password}
+  onChange={handleChange}
+  placeholder="Enter password"
+  className="w-full mt-2 p-4 rounded-xl border border-gray-300 outline-none focus:ring-2 focus:ring-violet-500"
+/>
 
               <FaEye className="absolute right-5 top-7 text-gray-500 cursor-pointer" />
 
@@ -77,9 +132,12 @@ const Login = () => {
           </div>
 
 
-          <button className="w-full mt-8 bg-violet-600 hover:bg-violet-700 text-white py-4 rounded-xl transition">
-            Login
-          </button>
+        <button
+  onClick={handleLogin}
+  className="w-full mt-8 bg-violet-600 hover:bg-violet-700 text-white py-4 rounded-xl transition"
+>
+  Login
+</button>
 
 
           <div className="flex items-center my-8">
@@ -95,28 +153,16 @@ const Login = () => {
           </div>
 
 
-          <div className="grid grid-cols-2 gap-4">
 
-            <button className="border py-4 rounded-xl flex justify-center items-center gap-3 hover:bg-gray-100 transition">
-              <FaGoogle />
-              Google
-            </button>
-
-            <button className="border py-4 rounded-xl flex justify-center items-center gap-3 hover:bg-gray-100 transition">
-              <FaGithub />
-              GitHub
-            </button>
-
-          </div>
-
-
-
-          <p className="text-center mt-8 text-gray-600">
-            Don't have an account?{" "}
-            <span className="text-violet-600 cursor-pointer font-semibold">
-              Sign Up
-            </span>
-          </p>
+<p className="text-center mt-8 text-gray-600">
+  Don't have an account?
+  <Link
+    to="/signup"
+    className="text-violet-600 font-semibold ml-2 hover:underline"
+  >
+    Sign Up
+  </Link>
+</p>
 
         </div>
 
