@@ -3,10 +3,70 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/authSlice";
+import { useRef } from "react";
 
 const Signup = () => {
+ const [showCamera, setShowCamera] = useState(false);
+const [capturedImage, setCapturedImage] = useState(null);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const galleryRef = useRef(null);
+const videoRef = useRef(null);
+const canvasRef = useRef(null);
+const streamRef = useRef(null);
+const openCamera = async () => {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: "user",
+      },
+    });
+
+    streamRef.current = stream;
+
+    setShowCamera(true);
+
+    setTimeout(() => {
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+      }
+    }, 100);
+  } catch (err) {
+    alert("Camera permission denied!");
+  }
+};
+const capturePhoto = () => {
+  const canvas = canvasRef.current;
+  const video = videoRef.current;
+
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(video, 0, 0);
+  const image = canvas.toDataURL("image/png");
+
+  setCapturedImage(image);
+};
+const usePhoto = () => {
+  setFormData((prev) => ({
+    ...prev,
+    profileImage: capturedImage,
+  }));
+
+  closeCamera();
+};
+const retakePhoto = () => {
+  setCapturedImage(null);
+};
+const closeCamera = () => {
+  if (streamRef.current) {
+    streamRef.current.getTracks().forEach((track) => track.stop());
+  }
+
+  setCapturedImage(null);
+  setShowCamera(false);
+};
 const [formData, setFormData] = useState({
   name: "",
   email: "",
@@ -166,19 +226,57 @@ const newUser = {
             </div>
           </div>
   
-          <div className="mt-5">
-  <label className="font-medium">
+     <div className="mt-5">
+  <label className="font-medium block mb-3">
     Profile Photo
   </label>
 
-  <input
-    type="file"
-    accept="image/*"
-    onChange={handleImageChange}
-    className="w-full mt-2"
-  />
-         </div>
-         <button
+  <div className="flex flex-col items-center gap-4 p-6 border-2 border-dashed border-violet-300 rounded-2xl">
+
+    <div className="w-28 h-28 rounded-full overflow-hidden border-4 border-violet-500 shadow">
+      <img
+        src={
+          formData.profileImage ||
+          "https://placehold.co/150x150?text=Photo"
+        }
+        alt="Profile"
+        className="w-full h-full object-cover"
+      />
+    </div>
+
+    <div className="flex gap-3 flex-wrap justify-center">
+
+      <button
+        type="button"
+        onClick={() => galleryRef.current.click()}
+        className="px-5 py-2 rounded-lg bg-violet-600 text-white hover:bg-violet-700 transition"
+      >
+        📁 Add Your Photo
+      </button>
+
+      <button
+        type="button"
+        onClick={openCamera}
+        className="px-5 py-2 rounded-lg border border-violet-600 text-violet-600 hover:bg-violet-600 hover:text-white transition"
+      >
+        📷 Open Camera
+      </button>
+
+    </div>
+
+    <input
+      ref={galleryRef}
+      type="file"
+      accept="image/*"
+      onChange={handleImageChange}
+      className="hidden"
+    />
+
+  </div>
+</div>
+
+
+  <button
   onClick={handleSignup}
   className="w-full mt-8 bg-violet-600 text-white py-4 rounded-xl hover:bg-violet-700 transition"
 >
@@ -206,7 +304,74 @@ const newUser = {
         </div>
 
       </div>
-    </section>
+      {showCamera && (
+  <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+
+    <div className="bg-white rounded-2xl p-5 w-[380px]">
+
+      {!capturedImage ? (
+        <>
+          <video
+            ref={videoRef}
+            autoPlay
+            playsInline
+            className="w-full rounded-xl"
+          />
+
+          <button
+            type="button"
+            onClick={capturePhoto}
+            className="w-full mt-4 bg-violet-600 text-white py-3 rounded-xl"
+          >
+            📸 Capture
+          </button>
+        </>
+      ) : (
+        <>
+          <img
+            src={capturedImage}
+            alt="Captured"
+            className="w-full rounded-xl"
+          />
+
+          <div className="flex gap-3 mt-4">
+
+            <button
+              type="button"
+              onClick={retakePhoto}
+              className="flex-1 py-2 border rounded-xl"
+            >
+              🔄 Retake
+            </button>
+
+            <button
+              type="button"
+              onClick={usePhoto}
+              className="flex-1 py-2 bg-violet-600 text-white rounded-xl"
+            >
+              ✅ Use Photo
+            </button>
+
+          </div>
+        </>
+      )}
+
+      <button
+        type="button"
+        onClick={closeCamera}
+        className="w-full mt-4 text-red-500"
+      >
+        Close
+      </button>
+
+      <canvas ref={canvasRef} className="hidden" />
+
+    </div>
+
+  </div>
+  )}
+</section>
+    
   );
 };
 
