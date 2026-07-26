@@ -5,7 +5,6 @@ const Hero = () => {
     <section className="w-full min-h-[90vh] bg-gradient-to-br from-violet-50 via-white to-purple-100">
       <div className="max-w-7xl mx-auto px-6 py-20 flex flex-col-reverse lg:flex-row items-center justify-between gap-12">
 
-        {/* Left Content */}
         <div className="flex-1">
 
           <span className="inline-block px-4 py-2 rounded-full bg-violet-100 text-violet-700 font-medium">

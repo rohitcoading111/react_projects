@@ -6,13 +6,39 @@ import SearchBar from "../components/SearchBar";
 import CategoryFilter from "../components/CategoryFilter";
 import SortDropdown from "../components/SortDropdown";
 import ProductCard from "../components/ProductCard";
+import Navbar from "../components/Navbar";
 
 const Products = () => {
   const dispatch = useDispatch();
-
   const { products, loading, error } = useSelector(
     (state) => state.products
   );
+  const { search, category, sort } = useSelector(
+  (state) => state.filter
+);
+
+let filteredProducts = [...products];
+filteredProducts = filteredProducts.filter((product) =>
+  product.title.toLowerCase().includes(search.toLowerCase())
+);
+if (category !== "all") {
+  filteredProducts = filteredProducts.filter(
+    (product) => product.category === category
+  );
+}
+if (sort === "low") {
+  filteredProducts.sort((a, b) => a.price - b.price);
+}
+
+if (sort === "high") {
+  filteredProducts.sort((a, b) => b.price - a.price);
+}
+
+if (sort === "rating") {
+  filteredProducts.sort(
+    (a, b) => b.rating.rate - a.rating.rate
+  );
+}
 
   useEffect(() => {
     if (products.length === 0) {
@@ -37,6 +63,8 @@ const Products = () => {
   }
 
   return (
+    <>
+      <Navbar />
     <div className="max-w-7xl mx-auto px-6 py-16">
       <h1 className="text-5xl font-bold mb-10">
         Explore Products
@@ -49,7 +77,7 @@ const Products = () => {
       </div>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {products.map((product) => (
+        {filteredProducts.map((product) => (
           <ProductCard
             key={product.id}
             id={product.id}
@@ -62,7 +90,10 @@ const Products = () => {
         ))}
       </div>
     </div>
+    </>
   );
+  
+  
 };
 
 export default Products;
