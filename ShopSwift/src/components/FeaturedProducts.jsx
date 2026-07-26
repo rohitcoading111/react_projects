@@ -35,7 +35,9 @@ useEffect(() => {
   }
   
   return (
-    <section className="max-w-7xl mx-auto px-6 py-20">
+    <section 
+    id="featured-products"
+    className="max-w-7xl mx-auto px-6 py-20">
 
       <div className="text-center mb-12">
         <h2 className="text-4xl font-bold">
@@ -48,17 +50,20 @@ useEffect(() => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {products.slice(0, 8).map((product) => (
-  <ProductCard
-  key={product.id}
-  id={product.id}
-  image={product.image}
-  title={product.title}
-  price={product.price}
-  rating={product.rating.rate}
-  category={product.category}
-/>
-))}
+        {products.slice(0, 8).map((product) => {
+            console.log(product);
+          return (
+            <ProductCard
+              key={product.id}
+              id={product.id}
+              image={product.thumbnail}
+              title={product.title}
+              price={product.price}
+              rating={product.rating}
+              category={product.category}
+            />
+          );
+        })}
       </div>
     </section>
   );

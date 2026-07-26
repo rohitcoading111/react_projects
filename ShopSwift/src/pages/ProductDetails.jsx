@@ -3,9 +3,11 @@ import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux"; 
 import { useEffect } from "react"; 
 import { fetchProducts } from "../redux/productSlice"; 
+import { useState } from "react";
 import { addToCart } from "../redux/cartSlice"; 
 
-const ProductDetails = () => { 
+const ProductDetails = () => {
+  const [quantity, setQuantity] = useState(1); 
   const { id } = useParams(); 
   const dispatch = useDispatch(); 
 
@@ -40,7 +42,7 @@ const ProductDetails = () => {
         <div className="grid lg:grid-cols-2 gap-16 bg-white rounded-3xl shadow-lg p-10"> 
           <div className="flex justify-center items-center bg-gray-100 rounded-2xl p-10"> 
             <img 
-              src={product.image} 
+              src={product.thumbnail} 
               alt={product.title} 
               className="w-96 h-96 object-contain hover:scale-105 transition duration-300" 
             /> 
@@ -55,11 +57,11 @@ const ProductDetails = () => {
             <div className="flex items-center gap-2 mt-4"> 
               <FaStar className="text-yellow-400" /> 
               <span className="font-semibold"> 
-                {product.rating.rate} 
+                {product.rating} 
               </span> 
-              <span className="text-gray-500"> 
-                ({product.rating.count} Reviews) 
-              </span> 
+             <span className="text-gray-500">
+           ({product.reviews?.length || 0} Reviews)
+          </span>
             </div> 
             <h2 className="text-5xl font-bold text-violet-600 mt-8"> 
               ${product.price} 
@@ -67,14 +69,31 @@ const ProductDetails = () => {
             <p className="text-gray-600 mt-8 leading-8"> 
               {product.description} 
             </p> 
-            <div className="flex items-center gap-5 mt-10"> 
-              <button className="w-12 h-12 rounded-xl bg-gray-200 text-xl"> - </button> 
-              <span className="text-2xl font-semibold"> 1 </span> 
-              <button className="w-12 h-12 rounded-xl bg-gray-200 text-xl"> + </button> 
-            </div> 
+            <div className="flex items-center gap-5 mt-10">
+  <button
+    onClick={() => quantity > 1 && setQuantity(quantity - 1)}
+    className="w-12 h-12 rounded-xl bg-gray-200 text-xl hover:bg-gray-300"
+  >
+    -
+  </button>
+
+  <span className="text-2xl font-semibold">{quantity}</span>
+
+  <button
+    onClick={() => setQuantity(quantity + 1)}
+    className="w-12 h-12 rounded-xl bg-gray-200 text-xl hover:bg-gray-300"
+  >
+    +
+  </button>
+</div>
             <div className="flex gap-5 mt-10"> 
               <button 
-                onClick={() => !isAlreadyInCart && dispatch(addToCart(product))} 
+                onClick={() => !isAlreadyInCart && dispatch(
+  addToCart({
+    ...product,
+    quantity,
+  })
+)} 
                 disabled={isAlreadyInCart}
                 className={`flex items-center gap-3 px-8 py-4 rounded-xl transition font-medium ${
                   isAlreadyInCart 
@@ -109,7 +128,7 @@ const ProductDetails = () => {
               .slice(0, 4) 
               .map((item) => ( 
                 <div key={item.id} className="bg-white rounded-2xl shadow-md p-5"> 
-                  <img src={item.image} alt={item.title} className="h-40 mx-auto object-contain" /> 
+                  <img src={item.thumbnail} alt={item.title} className="h-40 mx-auto object-contain" /> 
                   <h3 className="mt-4 font-semibold line-clamp-2"> 
                     {item.title} 
                   </h3> 

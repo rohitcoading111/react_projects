@@ -1,6 +1,19 @@
 import { ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const Hero = () => {
+  const scrollToFeatured = () => {
+  const section = document.getElementById("featured-products");
+
+  if (section) {
+    window.scrollTo({
+      top: section.offsetTop - 80, // Navbar ki height ke hisaab se adjust kar lena
+      behavior: "smooth",
+    });
+  }
+};
+  const navigate = useNavigate();
   return (
     <section className="w-full min-h-[90vh] bg-gradient-to-br from-violet-50 via-white to-purple-100">
       <div className="max-w-7xl mx-auto px-6 py-20 flex flex-col-reverse lg:flex-row items-center justify-between gap-12">
@@ -22,14 +35,20 @@ const Hero = () => {
           </p>
 
           <div className="flex gap-5 mt-10">
-            <button className="px-7 py-4 rounded-xl bg-violet-600 text-white font-semibold hover:bg-violet-700 transition flex items-center gap-2">
-              Shop Now
-              <ArrowRight size={20} />
-            </button>
+     <button
+  onClick={scrollToFeatured}
+  className="px-7 py-4 rounded-xl bg-violet-600 text-white font-semibold hover:bg-violet-700 transition flex items-center gap-2"
+>
+  Shop Now
+  <ArrowRight size={20} />
+</button>
 
-            <button className="px-7 py-4 rounded-xl border-2 border-violet-600 text-violet-600 font-semibold hover:bg-violet-600 hover:text-white transition">
-              Explore
-            </button>
+           <button
+  onClick={() => navigate("/products")}
+  className="px-7 py-4 rounded-xl border-2 border-violet-600 text-violet-600 font-semibold hover:bg-violet-600 hover:text-white transition"
+>
+  Explore
+</button>
           </div>
 
         </div>

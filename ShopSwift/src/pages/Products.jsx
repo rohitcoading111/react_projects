@@ -78,15 +78,15 @@ if (sort === "rating") {
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
         {filteredProducts.map((product) => (
-          <ProductCard
-            key={product.id}
-            id={product.id}
-            image={product.image}
-            title={product.title}
-            price={product.price}
-            rating={product.rating.rate}
-            category={product.category}
-          />
+         <ProductCard
+  key={product.id}
+  id={product.id}
+  image={product.thumbnail}  
+  title={product.title}
+  price={product.price}
+  rating={product.rating}    
+  category={product.category}
+/>
         ))}
       </div>
     </div>

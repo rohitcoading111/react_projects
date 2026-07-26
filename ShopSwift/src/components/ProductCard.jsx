@@ -11,6 +11,12 @@ const ProductCard = ({
   rating,
   category,
 }) => {
+  console.log({
+  id,
+  image,
+  title,
+  price,
+});
   const dispatch = useDispatch();
   const handleAddToCart = () => {
     dispatch(addToCart({ id, image, title, price, rating, category }));
