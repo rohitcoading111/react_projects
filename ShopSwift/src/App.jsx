@@ -9,6 +9,8 @@ import NotFound from "./pages/NotFound";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "./redux/authSlice";
+import ProtectedRoute from "./components/ProtectedRoute";
+import GuestRoute from "./components/GuestRoute";
 
 function App() {
   const dispatch = useDispatch();
@@ -21,17 +23,53 @@ function App() {
 }, []);
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route
+  path="/"
+  element={
+    <ProtectedRoute>
+      <Home />
+    </ProtectedRoute>
+  }
+/>
 
-      <Route path="/products" element={<Products />} />
+     <Route
+  path="/products"
+  element={
+    <ProtectedRoute>
+      <Products />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/cart"
+  element={
+    <ProtectedRoute>
+      <Cart />
+    </ProtectedRoute>
+  }
+/>
 
       <Route path="/product/:id" element={<ProductDetails />} />
 
-      <Route path="/cart" element={<Cart />} />
 
-      <Route path="/login" element={<Login />} />
+  <Route
+  path="/login"
+  element={
+    <GuestRoute>
+      <Login />
+    </GuestRoute>
+  }
+/>
 
-      <Route path="/signup" element={<Signup />} />
+<Route
+  path="/signup"
+  element={
+    <GuestRoute>
+      <Signup />
+    </GuestRoute>
+  }
+/>
 
       <Route path="*" element={<NotFound />} />
     </Routes>
