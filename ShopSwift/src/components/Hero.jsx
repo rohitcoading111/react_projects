@@ -53,7 +53,6 @@ const Hero = () => {
 
         </div>
 
-        {/* Right Image */}
         <div className="flex-1 flex justify-center">
 
           <img

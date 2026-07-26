@@ -4,31 +4,39 @@ import {
   Shirt,
   ShoppingBag,
 } from "lucide-react";
-
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setCategory } from "../redux/filterSlice";
 const categories = [
   {
     id: 1,
-    title: "Electronics",
+    title: "Smartphones",
+    value: "smartphones",
     icon: <Laptop size={40} />,
   },
   {
     id: 2,
-    title: "Jewelry",
+    title: "Beauty",
+    value: "beauty",
     icon: <Gem size={40} />,
   },
   {
     id: 3,
-    title: "Men's Clothing",
+    title: "Mens Shirts",
+    value: "mens-shirts",
     icon: <Shirt size={40} />,
   },
   {
     id: 4,
-    title: "Women's Clothing",
+    title: "Womens Dresses",
+    value: "womens-dresses",
     icon: <ShoppingBag size={40} />,
   },
 ];
 
 const Categories = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   return (
     <section className="max-w-7xl mx-auto px-6 py-20">
       <div className="text-center mb-12">
@@ -43,10 +51,14 @@ const Categories = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         {categories.map((category) => (
-          <div
-            key={category.id}
-            className="bg-white rounded-2xl shadow-md p-8 flex flex-col items-center hover:-translate-y-2 hover:shadow-xl transition-all duration-300 cursor-pointer"
-          >
+         <div
+  key={category.id}
+  onClick={() => {
+    dispatch(setCategory(category.value));
+    navigate("/products");
+  }}
+  className="bg-white rounded-2xl shadow-md p-8 flex flex-col items-center hover:-translate-y-2 hover:shadow-xl transition-all duration-300 cursor-pointer"
+>
             <div className="w-20 h-20 rounded-full bg-violet-100 flex items-center justify-center text-violet-600 mb-5">
               {category.icon}
             </div>
