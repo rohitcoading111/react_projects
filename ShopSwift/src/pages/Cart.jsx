@@ -1,8 +1,13 @@
-import { useSelector } from "react-redux";
 import { FaTrash, FaArrowRight } from "react-icons/fa";
-
+import { useSelector, useDispatch } from "react-redux";
+import {
+  increaseQuantity,
+  decreaseQuantity,
+  removeFromCart,
+} from "../redux/cartSlice";
 const Cart = () => {
   const { cartItems } = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
 
   const subtotal = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
@@ -23,7 +28,6 @@ const Cart = () => {
 
         <div className="grid lg:grid-cols-3 gap-10">
 
-          {/* Cart Items */}
 
           <div className="lg:col-span-2 space-y-6">
 
@@ -67,27 +71,34 @@ const Cart = () => {
 
                   <div className="flex flex-col items-center gap-5">
 
-                    {/* Quantity */}
 
                     <div className="flex items-center gap-4">
-
-                      <button className="w-10 h-10 rounded-lg bg-gray-200">
-                        -
-                      </button>
+<button
+  onClick={() => dispatch(decreaseQuantity(item.id))}
+  className="w-10 h-10 rounded-lg bg-gray-200 hover:bg-gray-300"
+>
+  -
+</button>
 
                       <span className="text-xl font-semibold">
                         {item.quantity}
                       </span>
 
-                      <button className="w-10 h-10 rounded-lg bg-gray-200">
-                        +
-                      </button>
+<button
+  onClick={() => dispatch(increaseQuantity(item.id))}
+  className="w-10 h-10 rounded-lg bg-gray-200 hover:bg-gray-300"
+>
+  +
+</button>
 
                     </div>
 
-                    <button className="text-red-500 hover:text-red-700 transition">
-                      <FaTrash size={20} />
-                    </button>
+<button
+  onClick={() => dispatch(removeFromCart(item.id))}
+  className="text-red-500 hover:text-red-700 transition"
+>
+  <FaTrash size={20} />
+</button>
 
                   </div>
                 </div>

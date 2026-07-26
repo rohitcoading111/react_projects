@@ -12,7 +12,6 @@ const ProductCard = ({
   category,
 }) => {
   const dispatch = useDispatch();
-
   const handleAddToCart = () => {
     dispatch(addToCart({ id, image, title, price, rating, category }));
   };
@@ -53,7 +52,7 @@ const ProductCard = ({
 
           <button
             onClick={handleAddToCart}
-            className="p-3 rounded-full bg-violet-600 text-white hover:bg-violet-700 transition"
+            className="p-3 rounded-full bg-green-600 text-white hover:bg-violet-700 transition"
           >
             <ShoppingCart size={18} />
           </button>
