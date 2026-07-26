@@ -6,7 +6,7 @@ const NotFound = () => {
     <section className="min-h-screen bg-gradient-to-br from-violet-100 via-white to-purple-100 flex items-center justify-center px-6">
 
       <div className="text-center max-w-2xl">
-
+    {/** 404 Error Message */}
         <h1 className="text-8xl md:text-9xl font-extrabold text-violet-600">
           404
         </h1>
