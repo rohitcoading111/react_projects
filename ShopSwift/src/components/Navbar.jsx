@@ -42,9 +42,6 @@ const Navbar = () => {
         </div>
 
         <div className="hidden md:flex items-center gap-5">
-          <button className="hover:text-violet-600 transition">
-            <Search size={22} />
-          </button>
 
           {isLoggedIn && (
             <Link to="/cart" className="relative hover:text-violet-600 transition">
