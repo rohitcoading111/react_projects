@@ -9,7 +9,7 @@ const SortDropdown = () => {
     <select
       value={sort}
       onChange={(e) => dispatch(setSort(e.target.value))}
-      className="px-5 py-3 rounded-xl border border-gray-300 bg-white shadow-sm outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 transition"
+      className="w-full sm:w-56 md:w-64 px-4 sm:px-5 py-3 rounded-xl border border-gray-300 bg-white shadow-sm outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 transition text-sm sm:text-base"
     >
       <option value="default">⭐ Default</option>
       <option value="low">⬆️ Price : Low to High</option>
