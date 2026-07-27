@@ -1,5 +1,5 @@
-import { FaEye } from "react-icons/fa";
 import { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/authSlice";
@@ -12,7 +12,7 @@ const Login = () => {
   const [showChangePassword, setShowChangePassword] = useState(false);
   const [forgotStep, setForgotStep] = useState("verify");
   const [forgotEmail, setForgotEmail] = useState("");
-
+  const [showPassword, setShowPassword] = useState(false);
   const [passwordData, setPasswordData] = useState({
     newPassword: "",
     confirmPassword: "",
@@ -156,7 +156,7 @@ const Login = () => {
 
             <div className="relative">
               <input
-                type="password"
+                 type={showPassword ? "text" : "password"}
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
@@ -164,7 +164,17 @@ const Login = () => {
                 className="w-full mt-2 p-3 sm:p-4 rounded-xl border border-gray-300 outline-none focus:ring-2 focus:ring-violet-500"
               />
 
-              <FaEye className="absolute right-5 top-6 sm:top-7 text-gray-500 cursor-pointer" />
+                            {showPassword ? (
+                      <FaEyeSlash
+                       onClick={() => setShowPassword(false)}
+                       className="absolute right-5 top-6 sm:top-7 text-gray-500 cursor-pointer"
+                          />
+                          ) : (
+  <FaEye
+    onClick={() => setShowPassword(true)}
+    className="absolute right-5 top-6 sm:top-7 text-gray-500 cursor-pointer"
+  />
+              )}
             </div>
           </div>
 

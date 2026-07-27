@@ -1,8 +1,8 @@
-import { FaEye } from "react-icons/fa";
 import { useState, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/authSlice";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Signup = () => {
   const dispatch = useDispatch();
@@ -10,7 +10,7 @@ const Signup = () => {
 
   const [showCamera, setShowCamera] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
-
+const [showPassword, setShowPassword] = useState(false);
   const galleryRef = useRef(null);
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
@@ -202,7 +202,7 @@ const Signup = () => {
 
             <div className="relative">
               <input
-                type="password"
+               type={showPassword ? "text" : "password"}
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
@@ -210,7 +210,17 @@ const Signup = () => {
                 className="w-full mt-2 p-3 sm:p-4 rounded-xl border border-gray-300 outline-none focus:ring-2 focus:ring-violet-500"
               />
 
-              <FaEye className="absolute right-5 top-6 sm:top-7 text-gray-500 cursor-pointer" />
+              {showPassword ? (
+              <FaEyeSlash
+    onClick={() => setShowPassword(false)}
+    className="absolute right-5 top-6 sm:top-7 text-gray-500 cursor-pointer"
+  />
+) : (
+  <FaEye
+    onClick={() => setShowPassword(true)}
+    className="absolute right-5 top-6 sm:top-7 text-gray-500 cursor-pointer"
+  />
+)}
             </div>
           </div>
 
@@ -219,7 +229,7 @@ const Signup = () => {
 
             <div className="relative">
               <input
-                type="password"
+                 type={showPassword ? "text" : "password"}
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
@@ -227,7 +237,17 @@ const Signup = () => {
                 className="w-full mt-2 p-3 sm:p-4 rounded-xl border border-gray-300 outline-none focus:ring-2 focus:ring-violet-500"
               />
 
-              <FaEye className="absolute right-5 top-6 sm:top-7 text-gray-500 cursor-pointer" />
+              {showPassword ? (
+              <FaEyeSlash
+               onClick={() => setShowPassword(false)}
+               className="absolute right-5 top-6 sm:top-7 text-gray-500 cursor-pointer"
+             />
+              ) : (
+               <FaEye
+                 onClick={() => setShowPassword(true)}
+                 className="absolute right-5 top-6 sm:top-7 text-gray-500 cursor-pointer"
+               />
+          )}
             </div>
           </div>
 
