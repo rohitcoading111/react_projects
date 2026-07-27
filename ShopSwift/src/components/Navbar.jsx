@@ -70,11 +70,12 @@ const { currentUser, isLoggedIn } = useSelector(
 </div>
 
 {currentUser?.profileImage ? (
-  <img
-    src={currentUser.profileImage}
-    alt="Profile"
-    className="w-10 h-10 rounded-full object-cover"
-  />
+ <img
+  src={currentUser.profileImage}
+  alt=""
+  onClick={() => navigate("/profile")}
+  className="w-10 h-10 rounded-full object-cover cursor-pointer"
+/>
 ) : (
   <div className="w-10 h-10 rounded-full bg-violet-600 text-white flex items-center justify-center">
     {currentUser?.name?.charAt(0).toUpperCase()}

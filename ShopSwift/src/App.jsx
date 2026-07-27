@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { login } from "./redux/authSlice";
 import ProtectedRoute from "./components/ProtectedRoute";
 import GuestRoute from "./components/GuestRoute";
+import Profile from "./pages/Profile";
 
 function App() {
   const dispatch = useDispatch();
@@ -39,6 +40,10 @@ function App() {
       <Products />
     </ProtectedRoute>
   }
+/>
+<Route
+  path="/profile"
+  element={<Profile />}
 />
 
 <Route
