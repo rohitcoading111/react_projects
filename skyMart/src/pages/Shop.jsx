@@ -16,14 +16,30 @@ const getButtonClass = (category) => {
 };
 
 const { cartItems, addToCart } = useContext(CartContext);
+const [search, setSearch] = useState("");
+const [searchTerm, setSearchTerm] = useState("");
 
+const suggestions = search.trim()
+  ? products
+      .filter((product) =>
+        product.title
+          .toLowerCase()
+          .includes(search.toLowerCase())
+      )
+      .slice(0, 5)
+  : [];
 
-const filteredProducts =
-  selectedCategory === "all"
-    ? products
-    : products.filter(
-        (product) => product.category === selectedCategory
-      );
+const filteredProducts = products.filter((product) => {
+  const categoryMatch =
+    selectedCategory === "all" ||
+    product.category === selectedCategory;
+
+  const searchMatch = product.title
+    .toLowerCase()
+    .includes(searchTerm.toLowerCase());
+
+  return categoryMatch && searchMatch;
+});
 
   return (
     <div className="min-h-screen bg-zinc-950 py-10 px-6">
@@ -37,6 +53,63 @@ const filteredProducts =
         <p className="text-zinc-400 text-center mt-3">
           Explore our latest collection
         </p>
+
+    <div className="max-w-2xl mx-auto mt-8 relative">
+
+  <div className="flex gap-3">
+    <input
+      type="text"
+      placeholder="Search products..."
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
+      className="flex-1 bg-zinc-900 border border-zinc-700 text-white px-5 py-3 rounded-xl outline-none focus:border-lime-400"
+    />
+
+    <button
+      onClick={() => setSearchTerm(search)}
+      className="bg-lime-400 text-black px-6 py-3 rounded-xl font-semibold hover:bg-lime-300 transition"
+    >
+      Search
+    </button>
+  </div>
+
+  {/* Suggestions */}
+  {search && suggestions.length > 0 && (
+    <div className="absolute top-full left-0 right-0 mt-2 bg-zinc-900 border border-zinc-700 rounded-xl overflow-hidden z-50 shadow-xl">
+
+      {suggestions.map((product) => (
+        <div
+          key={product.id}
+          onClick={() => {
+            setSearch(product.title);
+            setSearchTerm(product.title);
+          }}
+          className="flex items-center gap-4 px-4 py-3 hover:bg-zinc-800 cursor-pointer border-b border-zinc-800 last:border-none"
+        >
+
+          <img
+            src={product.image}
+            alt={product.title}
+            className="w-10 h-10 object-contain bg-white rounded p-1"
+          />
+
+          <div className="min-w-0">
+            <p className="text-white truncate">
+              {product.title}
+            </p>
+
+            <p className="text-lime-400 text-sm">
+              ${product.price}
+            </p>
+          </div>
+
+        </div>
+      ))}
+
+    </div>
+  )}
+
+</div>
 
         <div className="mt-10 flex flex-col lg:flex-row gap-8">
 
@@ -93,8 +166,8 @@ const filteredProducts =
           
 
            {filteredProducts.map((product) => {
-  const isInCart = cartItems.some(
-    (item) => item.id === product.id
+            const isInCart = cartItems.some(
+            (item) => item.id === product.id
   );
 
   return (

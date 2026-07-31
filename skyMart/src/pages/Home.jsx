@@ -13,7 +13,6 @@ const Home = () => {
       <ProductProvider>
         <FeaturedProducts />
       </ProductProvider>
-
       <WhyChooseUs />
       <Footer />
     </>
