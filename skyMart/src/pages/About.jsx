@@ -8,23 +8,29 @@ import {
   Star,
   Zap,
 } from "lucide-react";
+
 import { Link } from "react-router-dom";
 
 const About = () => {
   return (
-    <div className="min-h-screen bg-zinc-950 text-white">
+    <div className="min-h-screen bg-white dark:bg-zinc-950 text-black dark:text-white transition-colors duration-300">
+
+      {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-6 pt-20 pb-16 text-center">
-        <div className="inline-flex items-center gap-2 bg-lime-400/10 border border-lime-400/20 text-lime-400 px-4 py-2 rounded-full mb-6">
+
+        <div className="inline-flex items-center gap-2 bg-lime-400/10 border border-lime-400/20 text-lime-500 dark:text-lime-400 px-4 py-2 rounded-full mb-6">
           <Zap size={17} />
           About SkyMart
         </div>
 
         <h1 className="text-4xl md:text-6xl font-bold leading-tight">
           Shopping Made
-          <span className="text-lime-400"> Simple.</span>
+          <span className="text-lime-500 dark:text-lime-400">
+            {" "}Simple.
+          </span>
         </h1>
 
-        <p className="text-zinc-400 max-w-2xl mx-auto mt-6 text-lg leading-8">
+        <p className="text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto mt-6 text-lg leading-8">
           SkyMart is a modern e-commerce platform designed to make online
           shopping simple, fast and convenient. Discover products across
           multiple categories and manage everything from one place.
@@ -35,69 +41,92 @@ const About = () => {
             Explore Products
           </button>
         </Link>
+
       </section>
 
+
+      {/* Story Section */}
       <section className="max-w-7xl mx-auto px-6 py-16">
+
         <div className="grid md:grid-cols-2 gap-12 items-center">
+
           <div>
-            <p className="text-lime-400 font-semibold mb-3">
+
+            <p className="text-lime-500 dark:text-lime-400 font-semibold mb-3">
               OUR STORY
             </p>
 
             <h2 className="text-4xl font-bold">
               Built for a Better
-              <span className="text-lime-400">
+              <span className="text-lime-500 dark:text-lime-400">
                 {" "}Shopping Experience
               </span>
             </h2>
 
-            <p className="text-zinc-400 mt-6 leading-8">
+            <p className="text-zinc-600 dark:text-zinc-400 mt-6 leading-8">
               SkyMart brings different product categories together in one
               clean and easy-to-use platform. Our goal is to provide users
               with a smooth experience from discovering a product to adding
               it to their cart.
             </p>
 
-            <p className="text-zinc-400 mt-4 leading-8">
+            <p className="text-zinc-600 dark:text-zinc-400 mt-4 leading-8">
               With product search, category filters, detailed product
               information and an easy-to-manage shopping cart, SkyMart makes
               finding the right product easier.
             </p>
+
           </div>
 
-          <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-10">
+
+          {/* Why SkyMart Card */}
+          <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-10 transition-colors">
+
             <div className="w-16 h-16 bg-lime-400 rounded-2xl flex items-center justify-center mb-6">
-              <ShoppingBag size={32} className="text-black" />
+              <ShoppingBag
+                size={32}
+                className="text-black"
+              />
             </div>
 
-            <h3 className="text-2xl font-bold">
+            <h3 className="text-2xl font-bold text-black dark:text-white">
               Why SkyMart?
             </h3>
 
-            <p className="text-zinc-400 mt-4 leading-7">
+            <p className="text-zinc-600 dark:text-zinc-400 mt-4 leading-7">
               A simple, responsive and modern shopping experience focused
               on usability, product discovery and convenience.
             </p>
+
           </div>
+
         </div>
+
       </section>
 
+
+      {/* Features Section */}
       <section className="max-w-7xl mx-auto px-6 py-16">
+
         <div className="text-center mb-12">
-          <p className="text-lime-400 font-semibold">
+
+          <p className="text-lime-500 dark:text-lime-400 font-semibold">
             WHY CHOOSE US
           </p>
 
-          <h2 className="text-4xl font-bold mt-2">
+          <h2 className="text-4xl font-bold mt-2 text-black dark:text-white">
             Everything You Need
           </h2>
 
-          <p className="text-zinc-400 mt-3">
+          <p className="text-zinc-600 dark:text-zinc-400 mt-3">
             Designed to make your shopping experience smooth and simple.
           </p>
+
         </div>
 
+
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
           <FeatureCard
             icon={<Package size={28} />}
             title="Quality Products"
@@ -121,12 +150,19 @@ const About = () => {
             title="Easy Cart"
             description="Add, remove and manage product quantities with ease."
           />
+
         </div>
+
       </section>
 
+
+      {/* Stats Section */}
       <section className="max-w-7xl mx-auto px-6 py-16">
-        <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-8 md:p-12">
+
+        <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-8 md:p-12 transition-colors">
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+
             <Stat
               icon={<Package />}
               number="20+"
@@ -150,12 +186,19 @@ const About = () => {
               number="4.9"
               title="Rating"
             />
+
           </div>
+
         </div>
+
       </section>
 
+
+      {/* CTA Section */}
       <section className="max-w-7xl mx-auto px-6 py-16">
+
         <div className="bg-lime-400 rounded-3xl px-8 py-14 text-center text-black">
+
           <h2 className="text-4xl font-bold">
             Ready to Start Shopping?
           </h2>
@@ -165,49 +208,66 @@ const About = () => {
           </p>
 
           <Link to="/shop">
+
             <button className="mt-7 bg-black text-white px-7 py-3 rounded-xl font-semibold hover:scale-105 transition">
               Shop Now
             </button>
+
           </Link>
+
         </div>
+
       </section>
+
     </div>
   );
 };
 
+
+// Feature Card
 const FeatureCard = ({ icon, title, description }) => {
   return (
-    <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 hover:border-lime-400 hover:-translate-y-1 transition duration-300">
-      <div className="w-12 h-12 bg-lime-400/10 text-lime-400 rounded-xl flex items-center justify-center">
+
+    <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 hover:border-lime-400 dark:hover:border-lime-400 hover:-translate-y-1 transition duration-300">
+
+      <div className="w-12 h-12 bg-lime-400/10 text-lime-500 dark:text-lime-400 rounded-xl flex items-center justify-center">
         {icon}
       </div>
 
-      <h3 className="text-xl font-semibold mt-5">
+      <h3 className="text-xl font-semibold mt-5 text-black dark:text-white">
         {title}
       </h3>
 
-      <p className="text-zinc-400 mt-3 leading-6">
+      <p className="text-zinc-600 dark:text-zinc-400 mt-3 leading-6">
         {description}
       </p>
+
     </div>
+
   );
 };
 
+
+// Stats
 const Stat = ({ icon, number, title }) => {
   return (
+
     <div>
-      <div className="text-lime-400 flex justify-center mb-3">
+
+      <div className="text-lime-500 dark:text-lime-400 flex justify-center mb-3">
         {icon}
       </div>
 
-      <h3 className="text-3xl font-bold">
+      <h3 className="text-3xl font-bold text-black dark:text-white">
         {number}
       </h3>
 
-      <p className="text-zinc-400 mt-1">
+      <p className="text-zinc-600 dark:text-zinc-400 mt-1">
         {title}
       </p>
+
     </div>
+
   );
 };
 
