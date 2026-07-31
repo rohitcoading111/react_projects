@@ -35,7 +35,8 @@ const navigate = useNavigate();
 
    users.push(newUser);
   localStorage.setItem("users", JSON.stringify(users));
-   localStorage.setItem("currentUser", JSON.stringify(newUser));
+  localStorage.setItem("currentUser", JSON.stringify(newUser));
+  window.dispatchEvent(new Event("userLogin"));
   navigate("/");
   };
 
