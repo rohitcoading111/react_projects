@@ -5,7 +5,6 @@ const Hero = () => {
 
       <div className="grid lg:grid-cols-2 gap-14 items-center">
 
-        {/* Left */}
 
         <div>
 
@@ -35,7 +34,7 @@ const Hero = () => {
   </button>
 </Link>
 
-            <button className="border border-zinc-700 px-7 py-3 rounded-xl text-black hover:bg-red-400 hover:text-lime-400 transition duration-300">
+            <button className="border border-zinc-700 px-7 py-3 rounded-xl text-red-700 hover:bg-red-400 hover:text-lime-400 transition duration-300">
               Learn More
             </button>
 

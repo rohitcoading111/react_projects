@@ -15,6 +15,7 @@ const users = JSON.parse(localStorage.getItem("users")) || [];
     const user = users.find((e) => e.email === formData.email && e.password === formData.password);
     if (user) {
       localStorage.setItem("currentUser", JSON.stringify(user));
+      window.dispatchEvent(new Event("userLogin"));
       navigate("/");
     } else {
       alert("Invalid email or password");
