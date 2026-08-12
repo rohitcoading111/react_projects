@@ -1,4 +1,4 @@
-import journey from "../data/JourneyData";
+import journey from "../data/journeyData";
 const Journey = () => {
   return (
     <section
