@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router";
-
+import TechnologyDetails from "../pages/TechnologyDetails";
 import App from "../App";
 import Home from "../pages/Home";
 import ProjectDetails from "../pages/ProjectDetails";
@@ -19,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: "projects/:projectId",
         element: <ProjectDetails />,
+      },
+      {
+      path: "technologies/:technologyId",
+      element: <TechnologyDetails />,
       },
     ],
   },
