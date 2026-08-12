@@ -2,6 +2,7 @@ import { useLayoutEffect, useRef } from "react";
 import { Link } from "react-router";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import gsap from "gsap";
+import { useEffect } from "react";
 
 const Hero = () => {
   const heroRef = useRef(null);
@@ -50,8 +51,7 @@ const Hero = () => {
 
   requestAnimationFrame(animation);
 };
-
-  useLayoutEffect(() => {
+useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         defaults: {
@@ -137,17 +137,48 @@ const Hero = () => {
     return () => ctx.revert();
   }, []);
 
-  return (
+useEffect(() => {
+  const ctx = gsap.context(() => {
+    const timeline = gsap.timeline();
+
+    timeline
+      .fromTo(
+        ".hero-reveal",
+        { 
+          clipPath: "inset(50% 50% 50% 50% round 30px)",
+        },
+        {
+              clipPath: "inset(0% 0% 0% 0% round 0px)",
+          duration: 1.4,
+          ease: "power4.inOut",
+        }
+      )
+      .from(
+        ".hero-content",
+        {
+          opacity: 0,
+          y: 40,
+          duration: 0.8,
+          ease: "power3.out",
+        },
+        "-=0.5"
+      );
+  }, heroRef);
+
+  return () => ctx.revert();
+}, []);
+
+
+return (
     <section
-      ref={heroRef}
-      className=" scroll-mt-24 relative flex min-h-screen items-center overflow-hidden px-6 pt-28 lg:px-8"
-    >
+  ref={heroRef}
+  id="home"
+  className="hero-reveal scroll-mt-24 relative flex min-h-screen items-center overflow-hidden px-6 pt-28 lg:px-8"
+>
 
       <div className="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-500/10 blur-[120px]" />
 
-      <div className="relative mx-auto grid w-full max-w-7xl items-center gap-16 lg:grid-cols-2">
-
-        <div>
+    <div className="hero-content relative mx-auto grid w-full max-w-7xl items-center gap-16 lg:grid-cols-2">        <div>
           <p className="hero-badge mb-5 text-sm uppercase tracking-[0.3em] text-white/50">
             Frontend Developer
           </p>
@@ -197,7 +228,7 @@ const Hero = () => {
           </div>
 <button
   type="button"
-  onClick={() => smoothScrollTo("contact")}
+  onClick={() => smoothScrollTo("footer")}
   className="hero-scroll mt-16 flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-white/30 transition-colors duration-300 hover:text-white"
 >
   <ArrowDown
