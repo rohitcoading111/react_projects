@@ -6,7 +6,7 @@ const Projects = () => {
   return (
     <section
       id="projects"
-      className="relative overflow-hidden bg-white/[0.02] px-6 py-32 lg:px-8 lg:py-40"
+      className=" scroll-mt-24 relative overflow-hidden bg-white/[0.02] px-6 py-32 lg:px-8 lg:py-40"
     >
       <div className="mx-auto max-w-7xl">
 

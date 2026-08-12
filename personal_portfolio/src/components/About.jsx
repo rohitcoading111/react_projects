@@ -4,7 +4,7 @@ const About = () => {
   return (
     <section
       id="about"
-      className="relative overflow-hidden px-6 py-32 lg:px-8 lg:py-40"
+      className=" scroll-mt-24 relative overflow-hidden px-6 py-32 lg:px-8 lg:py-40"
     >
       <div className="mx-auto max-w-7xl">
 

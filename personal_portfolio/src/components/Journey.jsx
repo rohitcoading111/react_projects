@@ -3,7 +3,7 @@ const Journey = () => {
   return (
     <section
       id="journey"
-      className="relative overflow-hidden px-6 py-32 lg:px-8 lg:py-40"
+      className="relative overflow-hidden px-6 py-32 lg:px-8 lg:py-40  scroll-mt-24"
     >
       <div className="mx-auto max-w-7xl">
 
