@@ -6,6 +6,51 @@ import gsap from "gsap";
 const Hero = () => {
   const heroRef = useRef(null);
 
+  const smoothScrollTo = (id) => {
+  const section = document.getElementById(id);
+
+  if (!section) return;
+
+  const navbarHeight = 90;
+
+  const targetPosition =
+    section.getBoundingClientRect().top +
+    window.scrollY -
+    navbarHeight;
+
+  const startPosition = window.scrollY;
+  const distance = targetPosition - startPosition;
+
+  const duration = 1000;
+  let startTime = null;
+
+  const easeInOut = (t) => {
+    return t < 0.5
+      ? 4 * t * t * t
+      : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  };
+
+  const animation = (currentTime) => {
+    if (!startTime) startTime = currentTime;
+
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+
+    const easedProgress = easeInOut(progress);
+
+    window.scrollTo(
+      0,
+      startPosition + distance * easedProgress
+    );
+
+    if (progress < 1) {
+      requestAnimationFrame(animation);
+    }
+  };
+
+  requestAnimationFrame(animation);
+};
+
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
@@ -128,17 +173,18 @@ const Hero = () => {
 
           <div className="hero-buttons mt-10 flex flex-wrap items-center gap-4">
 
-            <Link
-              to="/#projects"
-              className="group flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-black transition duration-300 hover:scale-105"
-            >
-              View My Work
+            <button
+  type="button"
+  onClick={() => smoothScrollTo("projects")}
+  className="group flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-black transition duration-300 hover:scale-105"
+>
+  View My Work
 
-              <ArrowUpRight
-                size={17}
-                className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
-              />
-            </Link>
+  <ArrowUpRight
+    size={17}
+    className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
+  />
+</button>
 
             <a
               href="/resume.pdf"
@@ -149,11 +195,18 @@ const Hero = () => {
               Download Resume
             </a>
           </div>
+<button
+  type="button"
+  onClick={() => smoothScrollTo("contact")}
+  className="hero-scroll mt-16 flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-white/30 transition-colors duration-300 hover:text-white"
+>
+  <ArrowDown
+    size={15}
+    className="animate-bounce"
+  />
 
-          <div className="hero-scroll mt-16 flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-white/30">
-            <ArrowDown size={15} />
-            Scroll to explore
-          </div>
+  Scroll to explore
+</button>
         </div>
 
         <div className="relative mx-auto flex h-[400px] w-full max-w-[500px] items-center justify-center lg:h-[600px]">
