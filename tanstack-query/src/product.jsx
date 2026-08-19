@@ -15,9 +15,24 @@ function Products() {
   }
 });
 
+if(isLoading){
+    <h2>loading in process</h2>
+}
+
+if(isError){
+   <h2>api is errores</h2>
+}
+
 }
   return (
-    <div>product</div>
+     <div>
+    {data.map((product) => (
+      <div key={product.id}>
+        <h3>{product.title}</h3>
+        <p>${product.price}</p>
+      </div>
+    ))}
+  </div>
   )
 }
 
