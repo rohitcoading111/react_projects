@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 const Product = () => {
 
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError,refetch } = useQuery({
   queryKey: ["products"],
   queryFn: async () => {
     const res = await fetch("https://fakestoreapi.com/products?limit=100")
@@ -29,6 +29,9 @@ if(isError){
         <p>${product.price}</p>
       </div>
     ))}
+    <button onClick={refetch}>
+      Refresh Products
+     </button>
   </div>
   )
 }
