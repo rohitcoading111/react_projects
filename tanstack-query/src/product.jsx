@@ -1,29 +1,26 @@
 import React from 'react'
 import { useQuery } from "@tanstack/react-query";
-const product = () => {
+const Product = () => {
 
-
-
-function Products() {
 
   const { data, isLoading, isError } = useQuery({
   queryKey: ["products"],
   queryFn: async () => {
-    const res = await fetch("https://fakestoreapi.com/products")
+    const res = await fetch("https://fakestoreapi.com/products?limit=100")
     const data = await res.json();
+    console.log(data);
     return data;
   }
 });
 
 if(isLoading){
-    <h2>loading in process</h2>
+    return <h2>loading in process</h2>
 }
 
 if(isError){
-   <h2>api is errores</h2>
+  return <h2>api is errores</h2>
 }
 
-}
   return (
      <div>
     {data.map((product) => (
@@ -36,4 +33,4 @@ if(isError){
   )
 }
 
-export default product
+export default Product
