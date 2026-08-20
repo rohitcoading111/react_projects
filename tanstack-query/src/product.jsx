@@ -4,12 +4,19 @@ import { useState } from 'react';
 const Product = () => {
 
   const [category, setCategory] = useState("all");
-  const { data, isLoading, isError,refetch } = useQuery({
-    enabled :category !=="",
-  queryKey: ["products" ,category],
+ const { data, isLoading, isError,refetch  } = useQuery({
+  queryKey: ["products", category],
+
   queryFn: async () => {
-    const res = await fetch(`https://fakestoreapi.com/products/category/${category}`)
+    const url =
+      category === "all"
+        ? "https://fakestoreapi.com/products"
+        : `https://fakestoreapi.com/products/category/${category}`;
+
+    const res = await fetch(url);
+
     const data = await res.json();
+
     return data;
   }
 });
