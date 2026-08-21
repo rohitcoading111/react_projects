@@ -5,7 +5,7 @@ import ProductCard from "../components/ProductCard";
 const Products = () => {
   const [category, setCategory] = useState("all");
 
-  const { data, isLoading, isError, refetch } =
+  const { data, isLoading, isError, refetch, } =
     useProducts(category);
 
   if (isLoading) {
