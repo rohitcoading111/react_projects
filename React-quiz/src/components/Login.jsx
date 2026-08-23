@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Login = ({ setIsLogin }) => {
+const Login = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  
-   const navigate = useNavigate();
-   
 
   const [error, setError] = useState("");
+
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -19,6 +19,7 @@ const Login = ({ setIsLogin }) => {
 
     setError("");
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -39,14 +40,9 @@ const Login = ({ setIsLogin }) => {
       return;
     }
 
-    localStorage.setItem(
-      "currentUser",
-      JSON.stringify(savedUser)
-    );
+    localStorage.setItem("currentUser", JSON.stringify(savedUser));
 
-    alert("Login successful!");
     navigate("/");
-    
   };
 
   return (
@@ -84,9 +80,9 @@ const Login = ({ setIsLogin }) => {
 
             <input
               required
-              value={formData.password}
               name="password"
               type="password"
+              value={formData.password}
               onChange={handleChange}
               placeholder="Enter your password"
               className="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
@@ -111,7 +107,7 @@ const Login = ({ setIsLogin }) => {
           Don't have an account?
 
           <button
-            onClick={() => setIsLogin(false)}
+            onClick={() => navigate("/register")}
             className="text-blue-600 font-semibold ml-2"
           >
             Register

@@ -1,17 +1,22 @@
-import React from 'react'
-import Header from './components/header'
-import Login from './components/Login'
-import { useState } from 'react'
-import Register from './components/Register'
+import React from "react";
+import Header from "./components/header";
+import Home from "./components/Home";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import { Routes, Route } from "react-router-dom";
 
 const App = () => {
-const [isLogin, setIsLogin] = useState(true);
   return (
-   <div>
-    <Header />
-    {isLogin ? <Login setIsLogin={setIsLogin} /> :<Register setIsLogin={setIsLogin} /> }
-   </div>
-  )
-}
+    <div>
+      <Header />
 
-export default App
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </div>
+  );
+};
+
+export default App;

@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
+import { useNavigate } from "react-router-dom";
 const Register = ({setIsLogin}) => {
    
     const [formData, setFormData] = useState({
@@ -17,6 +18,7 @@ const handleChange = (e) => {
     localStorage.setItem("user", JSON.stringify(formData));
   };
 
+  const navigate = useNavigate()
 
 const handleSubmit = (e)=>{
   e.preventDefault();
@@ -90,6 +92,7 @@ const handleSubmit = (e)=>{
             Already have an account?
 
             <button onClick={()=>{
+                navigate("/login")
               setIsLogin(true)
             }} className="text-blue-600 font-semibold ml-2">
                 Login
