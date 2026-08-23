@@ -1,20 +1,52 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = ({ setIsLogin }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  
+   const navigate = useNavigate();
+   
 
+  const [error, setError] = useState("");
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
-  };
 
+    setError("");
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const savedUser = JSON.parse(localStorage.getItem("user"));
+
+    if (!savedUser) {
+      setError("Account not found. Please register first.");
+      return;
+    }
+
+    if (formData.email !== savedUser.email) {
+      setError("Invalid email.");
+      return;
+    }
+
+    if (formData.password !== savedUser.password) {
+      setError("Invalid password.");
+      return;
+    }
+
+    localStorage.setItem(
+      "currentUser",
+      JSON.stringify(savedUser)
+    );
+
+    alert("Login successful!");
+    navigate("/");
+    
   };
 
   return (
@@ -60,6 +92,12 @@ const Login = ({ setIsLogin }) => {
               className="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
+
+          {error && (
+            <p className="text-red-500 text-sm text-center">
+              {error}
+            </p>
+          )}
 
           <button
             type="submit"

@@ -14,6 +14,7 @@ const handleChange = (e) => {
       ...prev,
       [e.target.name]: e.target.value,
     }));
+    localStorage.setItem("user", JSON.stringify(formData));
   };
 
 
