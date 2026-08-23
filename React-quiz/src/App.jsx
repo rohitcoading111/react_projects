@@ -8,6 +8,7 @@ const App = () => {
 const [isLogin, setIsLogin] = useState(true);
   return (
    <div>
+    <Header />
     {isLogin ? <Login setIsLogin={setIsLogin} /> :<Register setIsLogin={setIsLogin} /> }
    </div>
   )

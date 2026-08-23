@@ -2,19 +2,23 @@ import React from 'react'
 import { useState } from 'react'
 const Register = ({setIsLogin}) => {
    
-    const [formData, setformData] = useState({
+    const [formData, setFormData] = useState({
     username : "",
     email : "",
     password : "",
     confirmpassword : "",
 
     })
+const handleChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
 
 const handleSubmit = (e)=>{
   e.preventDefault();
-  setformData((prev)=>({
-   ...prev,[e.target.name]:e.target.value
-  }))
 }
 
   return (
@@ -34,6 +38,7 @@ const handleSubmit = (e)=>{
 
             <input
                value={formData.username}
+               onChange={handleChange}
                 required
                 name='username'
                 type="text"
@@ -44,6 +49,7 @@ const handleSubmit = (e)=>{
             <input
                 required
                 value={formData.email}
+                onChange={handleChange}
                 name='email'
                 type="email"
                 placeholder="Email"
@@ -52,6 +58,7 @@ const handleSubmit = (e)=>{
 
             <input
                 required
+                onChange={handleChange}
                 value={formData.password}
                 name='password'
                 type="password"
@@ -62,6 +69,7 @@ const handleSubmit = (e)=>{
             <input
                 required
                 value={formData.confirmpassword}
+                onChange={handleChange}
                 name='confirmpassword'
                 type="password"
                 placeholder="Confirm Password"
