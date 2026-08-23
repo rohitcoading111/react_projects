@@ -6,8 +6,13 @@ import { fetchQuestions } from "../services/quizApi";
 const Home = () => {
   useEffect(() => {
   const getQuestions = async () => {
-    const data = await fetchQuestions("JavaScript");
-    console.log(data);
+    try {
+      const data = await fetchQuestions("JavaScript", 50);
+
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   getQuestions();

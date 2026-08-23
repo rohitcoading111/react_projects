@@ -1,8 +1,8 @@
 const API_KEY = import.meta.env.VITE_QUIZ_API_KEY;
 
-export const fetchQuestions = async (tag) => {
+export const fetchQuestions = async (tag, limit = 50) => {
   const response = await fetch(
-    `https://quizapi.io/api/v1/questions?category=Programming&tags=${tag}&limit=200&random=true`,
+    `https://quizapi.io/api/v1/questions?category=Programming&limit=50&random=true`,
     {
       headers: {
         Authorization: `Bearer ${API_KEY}`,
@@ -14,5 +14,10 @@ export const fetchQuestions = async (tag) => {
     throw new Error("Failed to fetch questions");
   }
 
-  return await response.json();
+  const result = await response.json();
+
+  console.log("Total available:", result.meta.total);
+  console.log("Questions received:", result.data.length);
+
+  return result.data;
 };
