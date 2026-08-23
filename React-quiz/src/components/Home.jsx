@@ -1,7 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { fetchQuestions } from "../services/quizApi";
 
 const Home = () => {
+  useEffect(() => {
+  const getQuestions = async () => {
+    const data = await fetchQuestions("JavaScript");
+    console.log(data);
+  };
+
+  getQuestions();
+}, []);
   const categories = [
     {
       title: "JavaScript",
