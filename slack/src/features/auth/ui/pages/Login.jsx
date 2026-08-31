@@ -116,7 +116,7 @@ const Login = () => {
                         ? "ring-1 ring-red-500/60"
                         : "focus:bg-[#121116]"
                     }`}
-                    {...register("loginEmail", {
+                    {...register("email", {
                       required: "Email is required",
                       pattern: {
                         value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
@@ -165,11 +165,11 @@ const Login = () => {
                     type={showLoginPassword ? "text" : "password"}
                     placeholder="••••••••"
                     className={`w-full h-10 rounded-md bg-[#0d0c10] pl-9 pr-9 text-[10px] outline-none placeholder:text-white/25 transition ${
-                      errors.loginPassword
+                      errors.password
                         ? "ring-1 ring-red-500/60"
                         : "focus:bg-[#121116]"
                     }`}
-                    {...register("loginPassword", {
+                    {...register("password", {
                       required: "Password is required",
                       minLength: {
                         value: 6,

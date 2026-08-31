@@ -57,6 +57,8 @@ const useAuth = () => {
   };
 
   const onLoginSubmit = (data) => {
+    console.log(data);
+    
      dispatch(loginEmployee(data))
   };
 
