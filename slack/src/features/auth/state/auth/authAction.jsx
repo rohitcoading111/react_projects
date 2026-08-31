@@ -11,5 +11,5 @@ export let loginEmployee = createAsyncThunk("auth/login",
       } catch (error) {
          return thunkApi.rejectWithValue(error)
       }
-} 
+   } 
 );

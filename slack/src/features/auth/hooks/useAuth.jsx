@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import  { useNavigate } from "react-router"
-
+import { useDispatch } from "react-redux";
+import { loginEmployee } from "../state/auth/authAction";
 
 const useAuth = () => {
-
-    let navigate = useNavigate()
+  let dispatch = useDispatch();
+  let navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -55,15 +56,8 @@ const useAuth = () => {
     }
   };
 
-  const onLoginSubmit = async (data) => {
-    try {
-      setIsLoginLoading(true);
-      console.log("Login Data:", data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoginLoading(false);
-    }
+  const onLoginSubmit = (data) => {
+     dispatch(loginEmployee(data))
   };
 
   const resetAuthForm = () => {
