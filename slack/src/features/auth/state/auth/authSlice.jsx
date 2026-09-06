@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { act } from "react";
 import { loginEmployee } from "./authAction";
+import { currentLoggedInEmployee } from "./authAction";
 
 let authSlice = createSlice({
     name:"auth",
