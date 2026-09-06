@@ -1,6 +1,8 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router";
-
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { currentLoggedInEmployee } from "../../features/auth/state/auth/authAction";
 import AuthLayout from "../layouts/AuthLayout";
 import Login from "../../features/auth/ui/pages/Login";
 import Register from "../../features/auth/ui/pages/Register";
@@ -8,6 +10,14 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import Home from "../../features/dashboard/ui/pages/home";
 
 const AppRoutes = () => {
+  let dispatch = useDispatch();
+   useEffect(()=>{
+     (()=>{
+     dispatch(currentLoggedInEmployee())
+     })()
+
+   },[])
+
   const router = createBrowserRouter([
     {
       path: "/",

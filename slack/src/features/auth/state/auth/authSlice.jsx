@@ -27,6 +27,16 @@ let authSlice = createSlice({
      }).addCase(loginEmployee.rejected, (state)=>{
           state.isLoading = false;
    });
+  },
+   extraReducers: (builder)=>{
+     builder.addCase(currentLoggedInEmployee.pending ,(state)=>{
+          state.isLoading = true;
+     }).addCase(currentLoggedInEmployee.fulfilled, (state,action)=>{
+           state.employee  = action.payload;
+           state.isLoading = false;
+     }).addCase(currentLoggedInEmployee.rejected, (state)=>{
+          state.isLoading = false;
+   });
   }
 })
 
