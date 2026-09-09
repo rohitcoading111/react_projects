@@ -5,6 +5,11 @@ import { Outlet } from 'react-router'
 const PublicRoutes = () => {
 
    let { employee, isLoading } = useSelector((store)=>store.auth)
+
+   if(isLoading){
+    return <div>Loading...</div>
+  }
+  
    if(employee){
     return <Navigate to="/home" />
    }

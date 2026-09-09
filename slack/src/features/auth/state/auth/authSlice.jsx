@@ -13,12 +13,13 @@ let authSlice = createSlice({
         addEmploy:(state,action)=>{
            state.employee = action.payload;
            state.isLoading = false;
-        }
-    },
-    removeEmploy: (state)=>{
+        },
+        removeEmploy: (state)=>{
        state.employee = null;
        state.isLoading = false;
+     },
     },
+    
    extraReducers: (builder)=>{
      builder.addCase(loginEmployee.pending ,(state)=>{
           state.isLoading = true;

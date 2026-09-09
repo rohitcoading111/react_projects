@@ -5,7 +5,11 @@ import { Navigate } from 'react-router'
 const ProtectedRoute = () => {
 
   let { employee, isLoading } = useSelector((store)=>store.auth)
-  
+
+  if(isLoading){
+    return <div>Loading...</div>
+  }
+
    if(!employee){
     return <Navigate to="/" />
    }
