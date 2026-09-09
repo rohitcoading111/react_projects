@@ -58,7 +58,7 @@ const useAuth = () => {
 
   const onLoginSubmit = (data) => {
     console.log(data);
-    
+    navigate("/home"); 
      dispatch(loginEmployee(data))
   };
 
