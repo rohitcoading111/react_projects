@@ -14,15 +14,23 @@ export const fetchCategories = async () => {
   return result.data;
 };
 
-export const fetchQuestions = async (limit = 10) => {
-  const response = await fetch(
-    `https://quizapi.io/api/v1/questions?category=Programming&limit=${limit}&random=true`,
-    {
-      headers: {
-        Authorization: `Bearer ${API_KEY}`,
-      },
-    }
-  );
+export const fetchQuestions = async (
+  category = "",
+  limit = 10
+) => {
+  let url = `https://quizapi.io/api/v1/questions?limit=${limit}&random=true`;
+
+  if (category) {
+    url += `&category=${encodeURIComponent(category)}`;
+  } else {
+    url += "&category=Programming";
+  }
+
+  const response = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${API_KEY}`,
+    },
+  });
 
   if (!response.ok) {
     throw new Error("Failed to fetch questions");

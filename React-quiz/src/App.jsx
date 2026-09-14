@@ -5,6 +5,8 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Dashboard from "./MainContents/Dashboard";
 import { Routes, Route } from "react-router-dom";
+import Quiz from "./MainContents/Quiz";
+import Result from "./components/Result";
 
 const App = () => {
   return (
@@ -16,6 +18,8 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
+         <Route path="/quiz" element={<Quiz />} />
+         <Route path="/result" element={<Result />} />
       </Routes>
     </div>
   );
