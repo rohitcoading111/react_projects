@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { registerUser, saveSession } from "../services/quizApi";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ const Register = () => {
     setError("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (formData.password !== formData.confirmpassword) {
@@ -30,16 +31,17 @@ const Register = () => {
       return;
     }
 
-    const user = {
-      username: formData.username,
-      email: formData.email,
-      password: formData.password,
-    };
-
-    localStorage.setItem("user", JSON.stringify(user));
-    localStorage.setItem("currentUser", JSON.stringify(user));
-
-    navigate("/dashboard");
+    try {
+      const session = await registerUser({
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+      });
+      saveSession(session);
+      navigate("/dashboard");
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   return (

@@ -32,6 +32,7 @@ const Home = () => {
   }, []);
 
   const handleLogout = () => {
+    localStorage.removeItem("accessToken");
     localStorage.removeItem("currentUser");
     setUser(null);
     navigate("/");

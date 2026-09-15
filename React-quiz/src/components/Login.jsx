@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { loginUser, saveSession } from "../services/quizApi";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -20,29 +21,15 @@ const Login = () => {
     setError("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const savedUser = JSON.parse(localStorage.getItem("user"));
-
-    if (!savedUser) {
-      setError("Account not found. Please register first.");
-      return;
+    try {
+      const session = await loginUser(formData);
+      saveSession(session);
+      navigate("/dashboard");
+    } catch (error) {
+      setError(error.message);
     }
-
-    if (formData.email !== savedUser.email) {
-      setError("Invalid email.");
-      return;
-    }
-
-    if (formData.password !== savedUser.password) {
-      setError("Invalid password.");
-      return;
-    }
-
-    localStorage.setItem("currentUser", JSON.stringify(savedUser));
-
-    navigate("/dashboard");
   };
 
   return (

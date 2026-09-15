@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { fetchResults } from "../services/quizApi";
 import {
   ResponsiveContainer,
   LineChart,
@@ -13,8 +14,19 @@ import {
 const Dashboard = () => {
   const user = JSON.parse(localStorage.getItem("currentUser"));
 
-  const history =
-    JSON.parse(localStorage.getItem("quizHistory")) || [];
+  const [history, setHistory] = useState([]);
+
+  useEffect(() => {
+    const loadResults = async () => {
+      try {
+        setHistory(await fetchResults());
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    loadResults();
+  }, []);
 
   const totalQuizzes = history.length;
 

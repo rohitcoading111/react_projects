@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { fetchQuestions } from "../services/quizApi";
+import { fetchQuestions, gradeQuestions, saveResult } from "../services/quizApi";
 
 const Quiz = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
-  const category = searchParams.get("category") || "Programming";
+  const category = searchParams.get("category") || "";
 
   const [questions, setQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
-  const [score, setScore] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [answersHistory, setAnswersHistory] = useState([]);
+  const [submitting, setSubmitting] = useState(false);
 
   const shuffleAnswers = (answers) => {
     const arr = [...answers];
@@ -36,7 +36,6 @@ const Quiz = () => {
         setSubmitted(false);
         setSelectedAnswer(null);
         setCurrentQuestion(0);
-        setScore(0);
         setAnswersHistory([]);
 
         const data = await fetchQuestions(category, 10);
@@ -48,11 +47,7 @@ const Quiz = () => {
 
         const shuffledQuestions = data.map((question) => ({
           ...question,
-          answers: shuffleAnswers(
-            Object.values(question.answers).filter(
-              (answer) => answer
-            )
-          ),
+          answers: shuffleAnswers(question.answers || []),
         }));
 
         setQuestions(shuffledQuestions);
@@ -69,15 +64,6 @@ const Quiz = () => {
 
   const question = questions[currentQuestion];
 
-  const getCorrectAnswer = () => {
-    return question.answers.find(
-      (answer) =>
-        answer &&
-        (answer.isCorrect === true ||
-          answer.isCorrect === "true")
-    );
-  };
-
   const handleAnswer = (answer) => {
     if (submitted) return;
 
@@ -87,69 +73,38 @@ const Quiz = () => {
   const handleSubmit = () => {
     if (!selectedAnswer || submitted) return;
 
-    const correctAnswer = getCorrectAnswer();
-
-    const isCorrect =
-      selectedAnswer.id === correctAnswer.id;
-
-    if (isCorrect) {
-      setScore((prev) => prev + 1);
-    }
-
     setAnswersHistory((prev) => [
       ...prev,
       {
-        question: question.text,
-        selectedAnswer: selectedAnswer.text,
-        correctAnswer: correctAnswer.text,
-        isCorrect,
+        questionId: question._id,
+        selectedAnswerId: selectedAnswer.id,
       },
     ]);
 
     setSubmitted(true);
   };
 
-  const handleNext = () => {
-    if (!submitted) return;
-
-    const correctAnswer = getCorrectAnswer();
-
-    const isCurrentCorrect =
-      selectedAnswer.id === correctAnswer.id;
-
-    const finalScore =
-      score + (isCurrentCorrect ? 1 : 0);
+  const handleNext = async () => {
+    if (!submitted || submitting) return;
 
     if (currentQuestion === questions.length - 1) {
-      const result = {
-        category,
-        score: Math.round(
-          (finalScore / questions.length) * 100
-        ),
-        correct: finalScore,
-        totalQuestions: questions.length,
-        answers: [
-          ...answersHistory,
-          {
-            question: question.text,
-            selectedAnswer: selectedAnswer.text,
-            correctAnswer: correctAnswer.text,
-            isCorrect: isCurrentCorrect,
-          },
-        ],
-      };
-
-      const history =
-        JSON.parse(localStorage.getItem("quizHistory")) || [];
-
-      history.push(result);
-
-      localStorage.setItem(
-        "quizHistory",
-        JSON.stringify(history)
-      );
-
-      navigate("/result");
+      try {
+        setSubmitting(true);
+        const grading = await gradeQuestions(answersHistory);
+        const result = await saveResult({
+          category: category || "Mixed",
+          score: grading.score,
+          correct: grading.correct,
+          totalQuestions: grading.totalQuestions,
+          answers: grading.answers,
+        });
+        localStorage.setItem("latestQuizResult", JSON.stringify(result));
+        navigate("/result");
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setSubmitting(false);
+      }
       return;
     }
 
@@ -269,7 +224,7 @@ const Quiz = () => {
           </p>
 
           <p className="text-slate-400 text-sm">
-            Score: {score}
+            Answered: {answersHistory.length}
           </p>
 
         </div>
@@ -303,29 +258,13 @@ const Quiz = () => {
 
             {question.answers.map((answer, index) => {
 
-              const correctAnswer =
-                getCorrectAnswer();
-
               const isSelected =
                 selectedAnswer?.id === answer.id;
-
-              const isCorrect =
-                correctAnswer?.id === answer.id;
 
               let answerStyle =
                 "border-slate-700 bg-slate-800/50 hover:border-blue-500/50";
 
-              if (submitted && isCorrect) {
-                answerStyle =
-                  "border-green-500 bg-green-500/10";
-              } else if (
-                submitted &&
-                isSelected &&
-                !isCorrect
-              ) {
-                answerStyle =
-                  "border-red-500 bg-red-500/10";
-              } else if (isSelected) {
+              if (isSelected) {
                 answerStyle =
                   "border-blue-500 bg-blue-500/10";
               }
@@ -350,20 +289,6 @@ const Quiz = () => {
 
                   </div>
 
-                  {submitted && isCorrect && (
-                    <p className="text-green-400 text-sm mt-3">
-                      ✓ Correct Answer
-                    </p>
-                  )}
-
-                  {submitted &&
-                    isSelected &&
-                    !isCorrect && (
-                      <p className="text-red-400 text-sm mt-3">
-                        ✕ Your Answer
-                      </p>
-                    )}
-
                 </button>
               );
             })}
@@ -373,27 +298,9 @@ const Quiz = () => {
           {submitted && (
             <div className="mt-6 p-5 rounded-2xl bg-slate-800 border border-slate-700">
 
-              {selectedAnswer.id ===
-              getCorrectAnswer().id ? (
-                <p className="text-green-400 font-semibold">
-                  🎉 Correct! Great job.
-                </p>
-              ) : (
-                <div>
-
-                  <p className="text-red-400 font-semibold">
-                    ✕ Wrong Answer
-                  </p>
-
-                  <p className="text-slate-300 mt-2">
-                    Correct answer:{" "}
-                    <span className="text-green-400 font-semibold">
-                      {getCorrectAnswer().text}
-                    </span>
-                  </p>
-
-                </div>
-              )}
+              <p className="text-blue-300 font-semibold">
+                Answer recorded. Continue to the next question.
+              </p>
 
             </div>
           )}
@@ -424,7 +331,9 @@ const Quiz = () => {
                 onClick={handleNext}
                 className="px-7 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 font-semibold"
               >
-                {currentQuestion === questions.length - 1
+                {submitting
+                  ? "Saving result..."
+                  : currentQuestion === questions.length - 1
                   ? "Finish Quiz"
                   : "Next Question →"}
               </button>

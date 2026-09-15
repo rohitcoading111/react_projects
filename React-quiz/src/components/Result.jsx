@@ -1,11 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { fetchResults } from "../services/quizApi";
 
 const Result = () => {
-  const history =
-    JSON.parse(localStorage.getItem("quizHistory")) || [];
+  const [result, setResult] = useState(() =>
+    JSON.parse(localStorage.getItem("latestQuizResult"))
+  );
 
-  const result = history[history.length - 1];
+  useEffect(() => {
+    const loadLatestResult = async () => {
+      try {
+        const results = await fetchResults();
+        if (results.length > 0) {
+          setResult(results[0]);
+          localStorage.setItem("latestQuizResult", JSON.stringify(results[0]));
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    loadLatestResult();
+  }, []);
 
   if (!result) {
     return (
