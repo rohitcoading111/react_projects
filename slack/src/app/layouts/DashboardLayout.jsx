@@ -14,7 +14,14 @@ const DashboardLayout = () => {
   }
   },[mode])
   return (
-    <Outlet/>
+    <div className='h-screen grid grid-cols-[1fr_7fr]'>
+      <div className='border-r border-gray-500 p-4'>navbar</div>
+      <div className=' flex flex-col gap-5 p-4'>
+        <div>top nav</div>
+        <Outlet/>  
+      </div>
+    </div>
+    
   )
 }
 
