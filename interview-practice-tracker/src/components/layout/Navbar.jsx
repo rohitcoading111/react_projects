@@ -5,7 +5,6 @@ function Navbar() {
     <nav className="border-b border-gray-200 bg-white">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
 
-        {/* Brand */}
         <NavLink to="/">
           <h1 className="text-xl font-bold text-gray-900">
             Interview Practice Tracker
@@ -16,7 +15,6 @@ function Navbar() {
           </p>
         </NavLink>
 
-        {/* Navigation */}
         <div className="flex items-center gap-6">
           <NavLink
             to="/"
