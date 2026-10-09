@@ -1,13 +1,31 @@
 
-function QuestionList({ questions, onUpdateStatus, onDeleteQuestion }) {
+function QuestionList({
+  questions,
+  totalQuestions = questions.length,
+  onUpdateStatus,
+  onDeleteQuestion,
+}) {
   if (questions.length === 0) {
+    const hasNoQuestions = totalQuestions === 0;
+
     return (
       <div className="rounded-xl border border-dashed border-gray-300 bg-white px-6 py-12 text-center">
+        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-gray-100">
+          <span className="text-2xl">
+            {hasNoQuestions ? "📝" : "🔍"}
+          </span>
+        </div>
+
         <h3 className="text-lg font-semibold text-gray-900">
-          No questions found
+          {hasNoQuestions
+            ? "No questions yet"
+            : "No matching questions"}
         </h3>
-        <p className="mt-2 text-sm text-gray-500">
-          Add a question or change your search and filters.
+
+        <p className="mx-auto mt-2 max-w-sm text-sm text-gray-500">
+          {hasNoQuestions
+            ? "You haven't added any questions yet. Use the form above to start tracking your preparation."
+            : "We couldn't find any questions matching your search or filters. Try changing your search or filters."}
         </p>
       </div>
     );
@@ -18,11 +36,11 @@ function QuestionList({ questions, onUpdateStatus, onDeleteQuestion }) {
       {questions.map((question) => (
         <div
           key={question.id}
-          className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
+          className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm transition hover:shadow-md"
         >
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-            <div>
-              <h3 className="font-semibold text-gray-900">
+            <div className="min-w-0">
+              <h3 className="break-words font-semibold text-gray-900">
                 {question.title}
               </h3>
 
@@ -44,7 +62,7 @@ function QuestionList({ questions, onUpdateStatus, onDeleteQuestion }) {
                   onUpdateStatus(question.id, e.target.value)
                 }
                 aria-label={`Update status for ${question.title}`}
-                className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm"
+                className="min-w-0 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm"
               >
                 <option value="Pending">Pending</option>
                 <option value="In Progress">In Progress</option>
@@ -54,7 +72,7 @@ function QuestionList({ questions, onUpdateStatus, onDeleteQuestion }) {
               <button
                 type="button"
                 onClick={() => onDeleteQuestion(question.id)}
-                className="rounded-lg border border-red-200 px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50"
+                className="rounded-lg border border-red-200 px-3 py-2 text-sm font-medium text-red-600 transition hover:bg-red-50"
                 aria-label={`Delete ${question.title}`}
               >
                 Delete

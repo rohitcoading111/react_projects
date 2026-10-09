@@ -173,11 +173,14 @@ function handleDeleteQuestion(questionId) {
         </div>
 
         
-       <QuestionList
-       questions={filteredQuestions}
-       onUpdateStatus={handleUpdateStatus}
-       onDeleteQuestion={handleDeleteQuestion}
-       />
+      
+<QuestionList
+  questions={filteredQuestions}
+  totalQuestions={questions.length}
+  onUpdateStatus={handleUpdateStatus}
+  onDeleteQuestion={handleDeleteQuestion}
+/>
+
 
       </section>
     </main>

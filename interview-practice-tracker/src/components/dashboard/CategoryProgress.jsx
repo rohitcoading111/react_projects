@@ -1,22 +1,5 @@
-const categories = [
-  {
-    name: "DSA",
-    completed: 3,
-    total: 5,
-  },
-  {
-    name: "Git & GitHub",
-    completed: 2,
-    total: 5,
-  },
-  {
-    name: "Full Stack",
-    completed: 4,
-    total: 5,
-  },
-];
 
-function CategoryProgress() {
+function CategoryProgress({ categories = [] }) {
   return (
     <section className="mt-8">
       <div className="mb-4">
@@ -32,7 +15,11 @@ function CategoryProgress() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {categories.map((category) => {
           const percentage =
-            (category.completed / category.total) * 100;
+            category.total === 0
+              ? 0
+              : Math.round(
+                  (category.completed / category.total) * 100
+                );
 
           return (
             <div
@@ -51,7 +38,7 @@ function CategoryProgress() {
 
               <div className="h-2 overflow-hidden rounded-full bg-gray-200">
                 <div
-                  className="h-full rounded-full bg-gray-900 transition-all"
+                  className="h-full rounded-full bg-gray-900 transition-all duration-500"
                   style={{ width: `${percentage}%` }}
                 />
               </div>
