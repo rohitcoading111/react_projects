@@ -1,13 +1,13 @@
 
-function QuestionList({ questions }) {
+function QuestionList({ questions, onUpdateStatus, onDeleteQuestion }) {
   if (questions.length === 0) {
     return (
       <div className="rounded-xl border border-dashed border-gray-300 bg-white px-6 py-12 text-center">
         <h3 className="text-lg font-semibold text-gray-900">
-          No questions yet
+          No questions found
         </h3>
         <p className="mt-2 text-sm text-gray-500">
-          Add your first interview question using the form above.
+          Add a question or change your search and filters.
         </p>
       </div>
     );
@@ -34,19 +34,31 @@ function QuestionList({ questions }) {
                 <span className="rounded-full bg-purple-50 px-3 py-1 text-xs font-medium text-purple-700">
                   {question.difficulty}
                 </span>
-
-                <span
-                  className={`rounded-full px-3 py-1 text-xs font-medium ${
-                    question.status === "Completed"
-                      ? "bg-green-50 text-green-700"
-                      : question.status === "In Progress"
-                        ? "bg-yellow-50 text-yellow-700"
-                        : "bg-gray-100 text-gray-600"
-                  }`}
-                >
-                  {question.status}
-                </span>
               </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3">
+              <select
+                value={question.status}
+                onChange={(e) =>
+                  onUpdateStatus(question.id, e.target.value)
+                }
+                aria-label={`Update status for ${question.title}`}
+                className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm"
+              >
+                <option value="Pending">Pending</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+              </select>
+
+              <button
+                type="button"
+                onClick={() => onDeleteQuestion(question.id)}
+                className="rounded-lg border border-red-200 px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50"
+                aria-label={`Delete ${question.title}`}
+              >
+                Delete
+              </button>
             </div>
           </div>
         </div>

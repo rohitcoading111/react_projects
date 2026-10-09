@@ -23,7 +23,6 @@ function getSavedQuestions() {
 }
 
 function Questions() {
-  // Load saved questions when the component initializes
   const [questions, setQuestions] = useState(getSavedQuestions);
 
   const [search, setSearch] = useState("");
@@ -45,6 +44,30 @@ function Questions() {
       newQuestion,
     ]);
   }
+
+  
+function handleUpdateStatus(questionId, newStatus) {
+  setQuestions((prevQuestions) =>
+    prevQuestions.map((question) =>
+      question.id === questionId
+        ? { ...question, status: newStatus }
+        : question
+    )
+  );
+}
+
+function handleDeleteQuestion(questionId) {
+  const shouldDelete = window.confirm(
+    "Are you sure you want to delete this question?"
+  );
+
+  if (!shouldDelete) return;
+
+  setQuestions((prevQuestions) =>
+    prevQuestions.filter((question) => question.id !== questionId)
+  );
+}
+
 
   const filteredQuestions = questions.filter((question) => {
     const matchesSearch = question.title
@@ -149,7 +172,13 @@ function Questions() {
           </select>
         </div>
 
-        <QuestionList questions={filteredQuestions} />
+        
+       <QuestionList
+       questions={filteredQuestions}
+       onUpdateStatus={handleUpdateStatus}
+       onDeleteQuestion={handleDeleteQuestion}
+       />
+
       </section>
     </main>
   );
