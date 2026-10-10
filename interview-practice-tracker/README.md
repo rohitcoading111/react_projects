@@ -1,16 +1,29 @@
-# React + Vite
+Create a professional and beginner-friendly `README.md` file for my existing Interview Practice Tracker project.
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+First, inspect the actual project code and include only features that are implemented and working. Do not invent features or add fake information.
 
-Currently, two official plugins are available:
+Include these sections:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+1. **Project Title** — Interview Practice Tracker
+2. **About the Project** — Explain that it helps users organize interview questions and track preparation progress.
+3. **Features**
+   - Add, edit and delete questions, if implemented.
+   - Search and filter questions.
+   - Track question status: Not Started, In Progress and Completed.
+   - Dynamic dashboard statistics and progress.
+   - Category-wise progress and difficulty levels.
+   - LocalStorage persistence.
+   - Responsive UI built with Tailwind CSS.
+4. **Tech Stack** — React, Vite, Tailwind CSS, React Router and any other libraries actually used.
+5. **Project Structure** — Show the actual simplified folder structure. Do not invent files or folders.
+6. **Installation and Setup** — Include correct commands to install dependencies and run the development server.
+7. **How to Use** — Explain how to add questions, update their status and track progress.
+8. **Build for Production** — Include the correct build command.
+9. **Future Improvements** — Mention a few realistic improvements that are not yet implemented, clearly labelled as future plans.
+10. **Author** — Leave a placeholder for my name and GitHub profile.
 
-## React Compiler
+Keep the README clean, professional, well-formatted and easy to understand.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Use accurate commands based on the existing package.json. Do not include secrets, fake deployment URLs, fake screenshots or unimplemented features.
 
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+Create the actual `README.md` file in the project root. Do not just show me the Markdown content in chat.
