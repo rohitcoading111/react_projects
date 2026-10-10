@@ -1,86 +1,65 @@
+import { CircleCheck, Clock3, Pencil, Trash2 } from "lucide-react";
+import { statuses } from "../../questionOptions";
 
-function QuestionList({
-  questions,
-  totalQuestions = questions.length,
-  onUpdateStatus,
-  onDeleteQuestion,
-}) {
+function QuestionList({ questions, totalQuestions, onUpdateStatus, onEdit, onDelete }) {
   if (questions.length === 0) {
-    const hasNoQuestions = totalQuestions === 0;
-
     return (
-      <div className="rounded-xl border border-dashed border-gray-300 bg-white px-6 py-12 text-center">
-        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-gray-100">
-          <span className="text-2xl">
-            {hasNoQuestions ? "📝" : "🔍"}
-          </span>
-        </div>
-
-        <h3 className="text-lg font-semibold text-gray-900">
-          {hasNoQuestions
-            ? "No questions yet"
-            : "No matching questions"}
-        </h3>
-
-        <p className="mx-auto mt-2 max-w-sm text-sm text-gray-500">
-          {hasNoQuestions
-            ? "You haven't added any questions yet. Use the form above to start tracking your preparation."
-            : "We couldn't find any questions matching your search or filters. Try changing your search or filters."}
+      <div className="p-12 text-center">
+        <CircleCheck className="mx-auto text-violet-300" size={28} />
+        <h3 className="mt-3 font-semibold">{totalQuestions === 0 ? "No questions yet" : "No matching questions"}</h3>
+        <p className="mt-2 text-sm text-slate-400">
+          {totalQuestions === 0
+            ? "Add a question to start building your practice list."
+            : "Try a different search or clear your filters."}
         </p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-3">
-      {questions.map((question) => (
-        <div
-          key={question.id}
-          className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm transition hover:shadow-md"
-        >
-          <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-            <div className="min-w-0">
-              <h3 className="break-words font-semibold text-gray-900">
-                {question.title}
-              </h3>
+    <div className="divide-y divide-slate-800 px-5 max-sm:px-4">
+      {questions.map((question) => {
+        const statusColor = question.status === "Completed"
+          ? "border-emerald-800 bg-emerald-950 text-emerald-300"
+          : question.status === "In Progress"
+            ? "border-blue-800 bg-blue-950 text-blue-300"
+            : "border-slate-700 bg-slate-800 text-slate-300";
+        const difficultyColor = question.difficulty === "Easy"
+          ? "text-emerald-300"
+          : question.difficulty === "Hard" ? "text-rose-300" : "text-amber-300";
+        const updatedDate = new Date(question.updatedAt).toLocaleDateString();
 
-              <div className="mt-3 flex flex-wrap gap-2">
-                <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700">
-                  {question.category}
-                </span>
-
-                <span className="rounded-full bg-purple-50 px-3 py-1 text-xs font-medium text-purple-700">
-                  {question.difficulty}
-                </span>
+        return (
+          <article className="flex flex-wrap items-center gap-3 py-4" key={question.id}>
+            <div className="min-w-0 flex-1">
+              <h3 className="truncate font-medium">{question.title}</h3>
+              <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
+                <span className="rounded-md bg-violet-500/10 px-2 py-1 text-violet-200">{question.category}</span>
+                <span className={difficultyColor}>{question.difficulty}</span>
+                <span className="inline-flex items-center gap-1 text-slate-500"><Clock3 size={13} /> Updated {updatedDate}</span>
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-3">
+            <label className={`rounded-lg border px-2 py-1.5 text-xs ${statusColor}`}>
+              <span className="sr-only">Status for {question.title}</span>
               <select
-                value={question.status}
-                onChange={(e) =>
-                  onUpdateStatus(question.id, e.target.value)
-                }
                 aria-label={`Update status for ${question.title}`}
-                className="min-w-0 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm"
+                className="max-w-28 cursor-pointer bg-transparent outline-none"
+                onChange={(event) => onUpdateStatus(question.id, event.target.value)}
+                value={question.status}
               >
-                <option value="Pending">Pending</option>
-                <option value="In Progress">In Progress</option>
-                <option value="Completed">Completed</option>
+                {statuses.map((status) => <option className="bg-slate-900 text-white" key={status}>{status}</option>)}
               </select>
-
-              <button
-                type="button"
-                onClick={() => onDeleteQuestion(question.id)}
-                className="rounded-lg border border-red-200 px-3 py-2 text-sm font-medium text-red-600 transition hover:bg-red-50"
-                aria-label={`Delete ${question.title}`}
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      ))}
+            </label>
+            <button aria-label={`Edit ${question.title}`} className="rounded-lg p-2 text-slate-400 hover:bg-slate-800 hover:text-white" onClick={() => onEdit(question)} type="button">
+              <Pencil size={16} />
+            </button>
+            <button aria-label={`Delete ${question.title}`} className="rounded-lg p-2 text-slate-400 hover:bg-rose-950 hover:text-rose-300" onClick={() => onDelete(question)} type="button">
+              <Trash2 size={16} />
+            </button>
+          </article>
+        );
+      })}
     </div>
   );
 }

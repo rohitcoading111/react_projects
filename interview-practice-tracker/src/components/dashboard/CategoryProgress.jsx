@@ -1,52 +1,31 @@
+import { Code2 } from "lucide-react";
 
-function CategoryProgress({ categories = [] }) {
+function CategoryProgress({ categories }) {
   return (
     <section className="mt-8">
-      <div className="mb-4">
-        <h2 className="text-lg font-semibold text-gray-900">
-          Category Progress
-        </h2>
-
-        <p className="mt-1 text-sm text-gray-500">
-          Track your progress in each interview section.
-        </p>
+      <div className="mb-3">
+        <h2 className="font-semibold">Preparation by category</h2>
+        <p className="mt-1 text-xs text-slate-400">See where your practice time is going</p>
       </div>
-
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4 max-sm:grid-cols-1">
         {categories.map((category) => {
-          const percentage =
-            category.total === 0
-              ? 0
-              : Math.round(
-                  (category.completed / category.total) * 100
-                );
-
+          const progress = category.total
+            ? Math.round((category.completed / category.total) * 100)
+            : 0;
           return (
-            <div
-              key={category.name}
-              className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
-            >
-              <div className="mb-3 flex items-center justify-between">
-                <h3 className="font-semibold text-gray-900">
-                  {category.name}
-                </h3>
-
-                <span className="text-sm text-gray-500">
-                  {category.completed}/{category.total}
-                </span>
+            <article className="rounded-xl border border-slate-800 bg-slate-900/80 p-4" key={category.name}>
+              <div className="flex items-center gap-2 text-violet-300">
+                <Code2 size={17} />
+                <h3 className="text-sm font-medium text-slate-100">{category.name}</h3>
               </div>
-
-              <div className="h-2 overflow-hidden rounded-full bg-gray-200">
-                <div
-                  className="h-full rounded-full bg-gray-900 transition-all duration-500"
-                  style={{ width: `${percentage}%` }}
-                />
+              <div className="mb-2 mt-4 flex justify-between text-xs text-slate-400">
+                <span>{category.completed} of {category.total} completed</span>
+                <span>{progress}%</span>
               </div>
-
-              <p className="mt-2 text-xs text-gray-400">
-                {percentage}% completed
-              </p>
-            </div>
+              <div className="h-1.5 overflow-hidden rounded-full bg-slate-800">
+                <div className="h-full rounded-full bg-violet-500 transition-all" style={{ width: `${progress}%` }} />
+              </div>
+            </article>
           );
         })}
       </div>

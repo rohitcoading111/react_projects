@@ -1,30 +1,26 @@
-function ProgressCard({ progress }) {
+function ProgressCard({ progress, completed, total }) {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-      <div className="mb-4 flex items-center justify-between">
+    <section className="rounded-xl border border-slate-800 bg-slate-900/80 p-5">
+      <div className="flex items-start justify-between">
         <div>
-          <h2 className="text-lg font-semibold text-gray-900">
-            Overall Progress
-          </h2>
-
-          <p className="mt-1 text-sm text-gray-500">
-            Your weekly interview preparation progress
-          </p>
+          <h2 className="font-semibold">Overall progress</h2>
+          <p className="mt-1 text-xs text-slate-400">A little consistency goes a long way</p>
         </div>
-
-        <span className="text-2xl font-bold text-gray-900">
-          {progress}%
-        </span>
+        <span className="text-3xl font-semibold text-violet-300">{progress}%</span>
       </div>
-
-      <div className="h-3 w-full overflow-hidden rounded-full bg-gray-200">
-        <div
-          className="h-full rounded-full bg-gray-900 transition-all duration-500"
-          style={{ width: `${progress}%` }}
-        />
+      <p className="mb-3 mt-5 text-sm text-slate-400">{completed} of {total} questions completed</p>
+      <div
+        aria-label={`${progress}% complete`}
+        aria-valuemax="100"
+        aria-valuemin="0"
+        aria-valuenow={progress}
+        className="h-2 overflow-hidden rounded-full bg-slate-800"
+        role="progressbar"
+      >
+        <div className="h-full rounded-full bg-gradient-to-r from-violet-500 to-blue-400 transition-all" style={{ width: `${progress}%` }} />
       </div>
-    </div>
+    </section>
   );
 }
 
-export default ProgressCard; 
+export default ProgressCard;

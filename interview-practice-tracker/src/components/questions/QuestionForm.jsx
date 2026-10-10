@@ -1,121 +1,70 @@
-
 import { useState } from "react";
+import { categories, difficulties, statuses } from "../../questionOptions";
 
-function QuestionForm({ onAddQuestion }) {
-  const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("DSA");
-  const [difficulty, setDifficulty] = useState("Easy");
-  const [status, setStatus] = useState("Pending");
+const fieldClass = "w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2.5 text-sm text-white outline-none focus:border-violet-500";
+
+function QuestionForm({ question, onSave, onCancel }) {
+  const [title, setTitle] = useState(question ? question.title : "");
+  const [category, setCategory] = useState(question ? question.category : categories[0]);
+  const [difficulty, setDifficulty] = useState(question ? question.difficulty : difficulties[0]);
+  const [status, setStatus] = useState(question ? question.status : statuses[0]);
   const [error, setError] = useState("");
 
-  function handleSubmit(e) {
-    e.preventDefault();
-
+  function submitForm(event) {
+    event.preventDefault();
     if (!title.trim()) {
       setError("Please enter a question title.");
       return;
     }
-
-    const newQuestion = {
-      id: crypto.randomUUID(),
-      title: title.trim(),
-      category,
-      difficulty,
-      status,
-    };
-
-    onAddQuestion(newQuestion);
-
-    setTitle("");
-    setCategory("DSA");
-    setDifficulty("Easy");
-    setStatus("Pending");
-    setError("");
+    onSave({ title: title.trim(), category, difficulty, status });
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
-    >
-      <h2 className="mb-5 text-lg font-semibold text-gray-900">
-        Add New Question
-      </h2>
+    <form className="space-y-4" onSubmit={submitForm} noValidate>
+      <div>
+        <label className="mb-1.5 block text-sm font-medium text-slate-300" htmlFor="question-title">Question title</label>
+        <input
+          autoFocus
+          className={fieldClass}
+          id="question-title"
+          maxLength={160}
+          onChange={(event) => {
+            setTitle(event.target.value);
+            setError("");
+          }}
+          placeholder="e.g. Explain how a hash map works"
+          value={title}
+        />
+        {error && <p className="mt-1.5 text-xs text-rose-400">{error}</p>}
+      </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <div className="sm:col-span-2">
-          <label className="mb-2 block text-sm font-medium text-gray-700">
-            Question Title
-          </label>
-
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="e.g. Two Sum"
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none focus:border-gray-900"
-          />
-        </div>
-
         <div>
-          <label className="mb-2 block text-sm font-medium text-gray-700">
-            Category
-          </label>
-
-          <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="w-full rounded-lg border border-gray-300 px-3 py-2"
-          >
-            <option value="DSA">DSA</option>
-            <option value="Git & GitHub">Git & GitHub</option>
-            <option value="Technical">Technical</option>
+          <label className="mb-1.5 block text-sm font-medium text-slate-300" htmlFor="question-category">Category</label>
+          <select className={fieldClass} id="question-category" onChange={(event) => setCategory(event.target.value)} value={category}>
+            {categories.map((item) => <option key={item}>{item}</option>)}
           </select>
         </div>
-
         <div>
-          <label className="mb-2 block text-sm font-medium text-gray-700">
-            Difficulty
-          </label>
-
-          <select
-            value={difficulty}
-            onChange={(e) => setDifficulty(e.target.value)}
-            className="w-full rounded-lg border border-gray-300 px-3 py-2"
-          >
-            <option value="Easy">Easy</option>
-            <option value="Medium">Medium</option>
-            <option value="Hard">Hard</option>
+          <label className="mb-1.5 block text-sm font-medium text-slate-300" htmlFor="question-difficulty">Difficulty</label>
+          <select className={fieldClass} id="question-difficulty" onChange={(event) => setDifficulty(event.target.value)} value={difficulty}>
+            {difficulties.map((item) => <option key={item}>{item}</option>)}
           </select>
         </div>
-
         <div className="sm:col-span-2">
-          <label className="mb-2 block text-sm font-medium text-gray-700">
-            Status
-          </label>
-
-          <select
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-            className="w-full rounded-lg border border-gray-300 px-3 py-2"
-          >
-            <option value="Pending">Pending</option>
-            <option value="In Progress">In Progress</option>
-            <option value="Completed">Completed</option>
+          <label className="mb-1.5 block text-sm font-medium text-slate-300" htmlFor="question-status">Status</label>
+          <select className={fieldClass} id="question-status" onChange={(event) => setStatus(event.target.value)} value={status}>
+            {statuses.map((item) => <option key={item}>{item}</option>)}
           </select>
         </div>
       </div>
 
-      {error && (
-        <p className="mt-3 text-sm text-red-600">{error}</p>
-      )}
-
-      <button
-        type="submit"
-        className="mt-5 rounded-lg bg-gray-900 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-700"
-      >
-        Add Question
-      </button>
+      <div className="flex justify-end gap-2 pt-2">
+        <button className="rounded-lg border border-slate-700 px-4 py-2 text-sm text-slate-300 hover:bg-slate-800" onClick={onCancel} type="button">Cancel</button>
+        <button className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-500" type="submit">
+          {question ? "Save changes" : "Add question"}
+        </button>
+      </div>
     </form>
   );
 }
