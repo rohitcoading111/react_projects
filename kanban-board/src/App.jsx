@@ -1,81 +1,103 @@
-import React from 'react'
-import Header from './components/Header'
-import Board from './components/Board'
-import Coulmn from './components/Coulmn';
-import AddTaskModal from './components/AddTaskModal';
-import { useState, useEffect } from 'react';
+
+import { useMemo, useState } from "react";
+
+import Header from "./components/Header";
+import Board from "./components/Board";
+import AddTaskModal from "./components/AddTaskModal";
+import FilterBar from "./components/FilterBar";
+
+import useTasks from "./hooks/useTasks";
+import { filterTasks } from "./utils/taskUtils";
 
 const App = () => {
- 
-  const [model, setModel] = useState(false);
-  const [tasks, setTasks] = useState(JSON.parse(localStorage.getItem("tasks")) || [])
-  const [editingTask, setEditingTask] = useState(null)
+  const {
+    tasks,
+    addTask,
+    updateTask,
+    deleteTask,
+    updateTaskStatus,
+  } = useTasks();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingTask, setEditingTask] = useState(null);
+
   const [search, setSearch] = useState("");
+  const [priority, setPriority] = useState("All");
+  const [status, setStatus] = useState("All");
 
-const searchedTasks = tasks.filter((task) => {
-  return task.title.toLowerCase().includes(search.toLowerCase());
-});
-  
+  const filteredTasks = useMemo(() => {
+    return filterTasks(tasks, search, priority, status);
+  }, [tasks, search, priority, status]);
 
-  const handleModel = () => {
-    if (model === false){
-      setModel(true)
+  const handleOpenModal = () => {
+    setEditingTask(null);
+    setIsModalOpen(true);
+  };
+
+  const handleEdit = (task) => {
+    setEditingTask(task);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setEditingTask(null);
+  };
+
+  const handleSubmit = (formData) => {
+    if (editingTask) {
+      updateTask({
+        ...formData,
+        id: editingTask.id,
+      });
+    } else {
+      addTask(formData);
     }
-  }
-  const handleCloseModel = () => {
-    if (model === true){
-      setModel(false)
-    }
-  }
 
-  const handleonAddTask = (newTask)=>{
-      const taskWithId = {
-  ...newTask,
-  id: Date.now() + Math.random()
-}
+    handleCloseModal();
+  };
 
-      setTasks([...tasks,taskWithId])
-  }
-  const onDelete = (id)=>{
-    setTasks(()=>{
-      return tasks.filter((task)=>{
-        return task.id !== id;
-      })
-    })
-  }
-
-  const onEdit = (task)=>{
-     setEditingTask(task)
-     setModel(true);
-  }
-
-  const handleUpdateTask = (updatedTask) => {
-  setTasks((prevTasks) => {
-    return prevTasks.map((task) => {
-      if (task.id === updatedTask.id) {
-        return updatedTask;
-      }
-
-      return task;
-    });
-  });
-
-  setEditingTask(null);
-  setModel(false);
-};
-
-useEffect(() => {
-   localStorage.setItem("tasks",JSON.stringify(tasks))
-}, [tasks])
-
+  const completedTasks = tasks.filter(
+    (task) => task.status === "Done"
+  ).length;
 
   return (
-    <div>
-      <Header search={search} setSearch={setSearch} onAddTask={handleModel} />
-      {model && <AddTaskModal onAddTask={handleonAddTask}  onClose={handleCloseModel} editingTask={editingTask} handleUpdateTask={handleUpdateTask} />}
-       <Board onEdit={onEdit} onDelete={onDelete} tasks={searchedTasks} />
-    </div>
-  )
-}
+    <div className="min-h-screen bg-[#09090f] text-white">
+      <Header
+        search={search}
+        setSearch={setSearch}
+        onAddTask={handleOpenModal}
+        totalTasks={tasks.length}
+        completedTasks={completedTasks}
+      />
 
-export default App
+      <main className="mx-auto max-w-[1600px] px-5 py-8 md:px-8">
+
+        <FilterBar
+          priority={priority}
+          setPriority={setPriority}
+          status={status}
+          setStatus={setStatus}
+        />
+
+        <Board
+          tasks={filteredTasks}
+          onEdit={handleEdit}
+          onDelete={deleteTask}
+          onStatusChange={updateTaskStatus}
+        />
+
+      </main>
+
+      {isModalOpen && (
+        <AddTaskModal
+          editingTask={editingTask}
+          onSubmit={handleSubmit}
+          onClose={handleCloseModal}
+        />
+      )}
+    </div>
+  );
+};
+
+export default App;
