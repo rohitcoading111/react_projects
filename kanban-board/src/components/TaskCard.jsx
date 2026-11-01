@@ -1,47 +1,94 @@
-import React from 'react'
 
-const TaskCard = ({ onEdit, onDelete,id,task}) => {
+const TaskCard = ({
+  task,
+  onEdit,
+  onDelete,
+  onStatusChange,
+}) => {
+  const priorityStyles = {
+    High: "text-red-400 bg-red-500/10 border-red-500/20",
+    Medium: "text-amber-400 bg-amber-500/10 border-amber-500/20",
+    Low: "text-emerald-400 bg-emerald-500/10 border-emerald-500/20",
+  };
+
+  const nextStatus = {
+    Todo: "In Progress",
+    "In Progress": "Done",
+    Done: "Todo",
+  };
+
+  const previousStatus = {
+    Todo: "Done",
+    "In Progress": "Todo",
+    Done: "In Progress",
+  };
+
   return (
-    <div className="mb-4 cursor-pointer rounded-xl bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
- 
-      <div className="mb-3 flex items-center justify-between">
-        <span className="rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-600">
-          {task.priority}
+    <article className="task-card group">
+
+      <div className="mb-4 flex items-center justify-between gap-2">
+        <span className={`rounded-md border px-2.5 py-1 text-[11px] font-bold ${priorityStyles[task.priority]}`}>
+          {task.priority} Priority
         </span>
 
-        <span className="text-sm text-gray-500">
-          {task.date}
+        <span className="text-xs text-gray-500">
+          {task.date || "No deadline"}
         </span>
       </div>
 
-      <h3 className="text-lg font-semibold text-gray-800">
-      {task.title}
+      <h3 className="text-base font-semibold text-gray-100 transition group-hover:text-violet-300">
+        {task.title}
       </h3>
 
-      <p className="mt-2 text-sm text-gray-500">
+      <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-gray-500">
         {task.description}
       </p>
 
-      <div className="mt-5 flex items-center justify-between">
-        <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-600">
-         {task.label}
+      <div className="mt-4 flex items-center justify-between">
+        <span className="rounded-md bg-violet-500/10 px-3 py-1 text-xs font-medium text-violet-300">
+          {task.label}
         </span>
 
-        <div className="flex gap-2">
-          <button onClick={()=>{
-            return onEdit(task)
-          }} className="rounded-lg bg-yellow-100 px-3 py-1 text-sm font-medium text-yellow-700 transition hover:bg-yellow-200">
-            Edit
+        <div className="flex gap-2 opacity-100 transition sm:opacity-70 sm:group-hover:opacity-100">
+          <button
+            onClick={() => onEdit(task)}
+            title="Edit task"
+            className="card-action hover:text-amber-400"
+          >
+            ✎
           </button>
 
-          <button onClick={() => {
-           return  onDelete(id);
-          }} className="rounded-lg bg-red-100 px-3 py-1 text-sm font-medium text-red-600 transition hover:bg-red-200">
-            Delete
+          <button
+            onClick={() => {
+              if (window.confirm("Delete this task?")) {
+                onDelete(task.id);
+              }
+            }}
+            title="Delete task"
+            className="card-action hover:text-red-400"
+          >
+            ×
           </button>
         </div>
       </div>
-    </div>
+
+      <div className="mt-4 flex items-center justify-between border-t border-white/5 pt-3">
+        <button
+          onClick={() => onStatusChange(task.id, previousStatus[task.status])}
+          className="text-xs text-gray-500 transition hover:text-white"
+        >
+          ← Previous
+        </button>
+
+        <button
+          onClick={() => onStatusChange(task.id, nextStatus[task.status])}
+          className="text-xs font-semibold text-violet-400 transition hover:text-violet-300"
+        >
+          {task.status === "Done" ? "Restart ↻" : "Move Forward →"}
+        </button>
+      </div>
+
+    </article>
   );
 };
 
