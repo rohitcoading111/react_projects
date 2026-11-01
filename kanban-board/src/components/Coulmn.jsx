@@ -1,41 +1,58 @@
-import React from "react";
+
 import TaskCard from "./TaskCard";
 
-const Column = (props) => {
-  return (
-    <div className="rounded-2xl bg-gray-100 p-4 shadow-md">
-      <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-xl font-bold text-gray-800">
-          {props.title}
-        </h2>
+const Column = ({
+  title,
+  tasks,
+  onEdit,
+  onDelete,
+  onStatusChange,
+}) => {
+  const styles = {
+    "Todo": "text-violet-400 bg-violet-500/10 border-violet-500/20",
+    "In Progress": "text-blue-400 bg-blue-500/10 border-blue-500/20",
+    "Done": "text-emerald-400 bg-emerald-500/10 border-emerald-500/20",
+  };
 
-        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-sm font-semibold text-white">
-          {props.task.length}
-        </span>
+  return (
+    <div className="column-panel">
+
+      <div className="mb-5 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <span className={`rounded-lg border px-3 py-2 text-sm font-semibold ${styles[title]}`}>
+            {title}
+          </span>
+
+          <span className="text-sm text-gray-500">
+            {tasks.length} tasks
+          </span>
+        </div>
+
+        <span className="text-gray-500">•••</span>
       </div>
 
-      <div className="mb-4 h-[1px] bg-gray-300"></div>
+      <div className="space-y-4">
 
-      <div className="min-h-[500px] rounded-xl border-2 border-dashed border-gray-300 p-3">
-
-        {props.task.length === 0 ? (
-          <div className="flex h-[460px] items-center justify-center">
-            <p className="text-lg font-medium text-gray-500">
-              No Tasks Yet
+        {tasks.length === 0 ? (
+          <div className="empty-state">
+            <div className="mb-3 text-3xl opacity-40">◇</div>
+            <p className="text-sm font-medium text-gray-400">
+              No tasks here
+            </p>
+            <p className="mt-1 text-xs text-gray-600">
+              Tasks will appear here
             </p>
           </div>
         ) : (
-          <div className="space-y-4">
-            {props.task.map((task) => (
-              <TaskCard
-                onDelete={props.onDelete}
-                onEdit={props.onEdit}
-                key={task.id}
-                id={task.id}
-                task={task}
-              />
-            ))}
-          </div>
+          tasks.map((task) => (
+            <TaskCard
+              key={task.id}
+              task={task}
+              onEdit={onEdit}
+              onDelete={onDelete}
+              onStatusChange={onStatusChange}
+            />
+          ))
         )}
 
       </div>
