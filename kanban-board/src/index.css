@@ -1,1 +1,543 @@
+
 @import "tailwindcss";
+
+/* ================================
+   GLOBAL SETTINGS
+================================ */
+
+:root {
+  font-family: Inter, system-ui, sans-serif;
+  color-scheme: dark;
+  background: #09090f;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+
+  background:
+    radial-gradient(
+      ellipse at 15% 0%,
+      rgba(124, 58, 237, 0.10),
+      transparent 35%
+    ),
+    radial-gradient(
+      ellipse at 90% 30%,
+      rgba(37, 99, 235, 0.08),
+      transparent 35%
+    ),
+    #09090f;
+}
+
+/* ================================
+   CUSTOM SCROLLBAR
+================================ */
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #11111b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #39334f;
+  border-radius: 20px;
+}
+
+/* ================================
+   KANBAN COLUMN
+================================ */
+
+.column-panel {
+  position: relative;
+  isolation: isolate;
+
+  min-width: 0;
+  min-height: 500px;
+  padding: 22px;
+
+  border: 1px solid var(--glow-border);
+  border-radius: 24px;
+
+  background: rgba(20, 20, 32, 0.90);
+  backdrop-filter: blur(18px);
+
+  box-shadow:
+    0 0 0 1px var(--glow-soft),
+    0 0 12px var(--glow-soft),
+    0 0 25px var(--glow-outer);
+
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
+}
+
+/* OUTER EDGE GLOW ONLY */
+
+.column-panel::before {
+  content: "";
+
+  position: absolute;
+  inset: -1px;
+
+  z-index: -1;
+
+  border-radius: inherit;
+
+  background: transparent;
+
+  box-shadow:
+    0 0 12px 1px var(--glow-soft),
+    0 0 25px 2px var(--glow-outer);
+
+  pointer-events: none;
+
+  transition: box-shadow 0.3s ease;
+}
+
+/* Column Hover */
+
+.column-panel:hover {
+  border-color: var(--glow-border);
+
+  box-shadow:
+    0 0 0 1px var(--glow-soft),
+    0 0 18px var(--glow-soft),
+    0 0 35px var(--glow-outer);
+}
+
+.column-panel:hover::before {
+  box-shadow:
+    0 0 15px 2px var(--glow-soft),
+    0 0 35px 4px var(--glow-outer);
+}
+
+/* TODO - PURPLE */
+
+.column-todo {
+  --glow-color: #8b5cf6;
+  --glow-border: rgba(139, 92, 246, 0.45);
+  --glow-soft: rgba(139, 92, 246, 0.22);
+  --glow-outer: rgba(139, 92, 246, 0.18);
+}
+
+/* IN PROGRESS - BLUE */
+
+.column-progress {
+  --glow-color: #3b82f6;
+  --glow-border: rgba(59, 130, 246, 0.45);
+  --glow-soft: rgba(59, 130, 246, 0.22);
+  --glow-outer: rgba(59, 130, 246, 0.18);
+}
+
+/* DONE - GREEN */
+
+.column-done {
+  --glow-color: #10b981;
+  --glow-border: rgba(16, 185, 129, 0.45);
+  --glow-soft: rgba(16, 185, 129, 0.22);
+  --glow-outer: rgba(16, 185, 129, 0.18);
+}
+
+/* ================================
+   TASK CARD
+================================ */
+
+.task-card {
+  position: relative;
+  overflow: hidden;
+
+  padding: 18px;
+
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+
+  background: linear-gradient(
+    145deg,
+    rgba(36, 34, 51, 0.95),
+    rgba(21, 21, 32, 0.98)
+  );
+
+  animation: cardEnter 0.35s ease both;
+
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.task-card::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  border-radius: inherit;
+
+  background: radial-gradient(
+    circle at top right,
+    rgba(139, 92, 246, 0.13),
+    transparent 60%
+  );
+
+  opacity: 0;
+
+  transition: opacity 0.3s ease;
+}
+
+.task-card:hover {
+  transform: translateY(-5px);
+
+  border-color: rgba(139, 92, 246, 0.55);
+
+  box-shadow:
+    0 12px 30px rgba(0,0,0,0.25),
+    0 0 22px rgba(139, 92, 246, 0.16);
+}
+
+.task-card:hover::before {
+  opacity: 1;
+}
+
+.task-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ================================
+   EMPTY STATE
+================================ */
+
+.empty-state {
+  display: flex;
+
+  min-height: 220px;
+
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px dashed rgba(255,255,255,0.12);
+  border-radius: 16px;
+
+  background: rgba(255,255,255,0.015);
+}
+
+/* ================================
+   INPUTS AND SELECT
+================================ */
+
+.dark-select,
+.form-input {
+  width: 100%;
+
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 11px;
+
+  background: #191925;
+
+  padding: 12px 14px;
+
+  color: #f3f4f6;
+  font-size: 14px;
+
+  outline: none;
+
+  transition: 0.25s ease;
+}
+
+.dark-select {
+  width: auto;
+  min-width: 140px;
+}
+
+.form-input:focus,
+.dark-select:focus {
+  border-color: #8b5cf6;
+
+  box-shadow:
+    0 0 0 3px rgba(139,92,246,0.12);
+}
+
+.form-input::placeholder {
+  color: #666579;
+}
+
+.form-input option,
+.dark-select option {
+  background: #191925;
+  color: white;
+}
+
+.form-label {
+  display: block;
+
+  margin-bottom: 9px;
+
+  color: #c4c4d4;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ================================
+   MODAL
+================================ */
+
+.modal-panel {
+  padding: 28px;
+
+  border: 1px solid rgba(139,92,246,0.25);
+  border-radius: 22px;
+
+  background: #13131f;
+
+  box-shadow:
+    0 25px 100px rgba(0,0,0,0.65),
+    0 0 35px rgba(139,92,246,0.12);
+
+  animation: modalEnter 0.25s ease both;
+}
+
+/* ================================
+   CARD ACTION BUTTONS
+================================ */
+
+.card-action {
+  display: flex;
+
+  width: 34px;
+  height: 34px;
+
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 9px;
+
+  color: #a1a1aa;
+
+  transition: 0.25s ease;
+}
+
+.card-action:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+/* ================================
+   ANIMATIONS
+================================ */
+
+@keyframes cardEnter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes modalEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ================================
+   RESPONSIVE DESIGN
+================================ */
+
+@media (max-width: 640px) {
+  .modal-panel {
+    padding: 20px;
+  }
+
+  .dark-select {
+    flex: 1;
+    min-width: 120px;
+  }
+
+  .column-panel {
+    min-height: 350px;
+    padding: 16px;
+  }
+}
+
+/* ================================
+   ACCESSIBILITY
+================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
+/* ================================
+   SMOOTH SCROLLING
+================================ */
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 20px;
+}
+
+body {
+  overflow-x: hidden;
+  overscroll-behavior-y: contain;
+}
+
+/* Smooth scrollbar */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #514477 #11111b;
+}
+
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #11111b;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    #8b5cf6,
+    #3b82f6
+  );
+  border-radius: 20px;
+  border: 2px solid #11111b;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a78bfa;
+}
+
+
+/* Smooth Page Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Hide scrollbar everywhere */
+html,
+body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+  width: 0;
+}
+
+/* Prevent horizontal scrolling */
+body {
+  overflow-x: hidden;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ================================
+   COMPACT UI MODE
+================================ */
+
+/* Overall font size */
+html {
+  font-size: 14px;
+}
+
+/* Column */
+.column-panel {
+  min-height: 460px;
+  padding: 12px;
+  border-radius: 40px;
+}
+
+/* Column spacing */
+.column-panel .mb-5 {
+  margin-bottom: 14px;
+}
+
+/* Task Cards */
+.task-card {
+  padding: 14px;
+  border-radius: 13px;
+}
+
+/* Card heading */
+.task-card h3 {
+  font-size: 14px;
+}
+
+/* Card description */
+.task-card p {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* Header */
+header h1 {
+  font-size: 22px;
+}
+
+/* Modal */
+.modal-panel {
+  max-width: 480px;
+  padding: 22px;
+}
+
+/* Inputs */
+.form-input,
+.dark-select {
+  padding: 10px 12px;
+  font-size: 13px;
+}
+
+/* Buttons */
+button {
+  transition: all 0.25s ease;
+}
+
+/* Empty state */
+.empty-state {
+  min-height: 180px;
+}
+

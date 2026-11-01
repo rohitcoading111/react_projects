@@ -1,5 +1,5 @@
 
-import Column from "./Column";
+import Column from "./Coulmn.jsx";
 import { groupTasks } from "../utils/taskUtils";
 
 const Board = ({ tasks, onEdit, onDelete, onStatusChange }) => {
